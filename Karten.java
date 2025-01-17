@@ -20,3 +20,5 @@ public class Karten{
 
     
 }
+
+public class Special_Karten extends Karten 

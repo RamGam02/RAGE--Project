@@ -1,51 +1,45 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Spiel {
 
+    // Erstellt Variablen für die Klasse
+    
+    private final String Trumpf = "lol"; // für später
+
     public Spiel() {
-        // Erstellen von Listen für Karten, Farben, Nummern und Kartentypen
-        List<String> Karten_Liste = new ArrayList<>();
-        List<String> Farben_Liste = new ArrayList<>();
-        List<String> Number_Liste = new ArrayList<>();
-        List<String> Karte_Typ_Liste = new ArrayList<>();
+
+
+        // Erstellen von Listen für Karten
+        List<Karten> Karten_Liste = new ArrayList<>();       
 
         // Hinzufügen von Farben zur Farben_Liste
-        Farben_Liste.add("Grün");
-        Farben_Liste.add("Gelb");
-        Farben_Liste.add("Rot");
-        Farben_Liste.add("Orange");
-        Farben_Liste.add("Lila");
-        Farben_Liste.add("Blau");
+        List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
+
 
         // Hinzufügen von Nummern zur Number_Liste
-        Number_Liste.add("0");
-        Number_Liste.add("1");
-        Number_Liste.add("2");
-        Number_Liste.add("3");
-        Number_Liste.add("4");
-        Number_Liste.add("5");
-        Number_Liste.add("6");
-        Number_Liste.add("7");
-        Number_Liste.add("8");
-        Number_Liste.add("9");
-        Number_Liste.add("10");
-        Number_Liste.add("11");
-        Number_Liste.add("12");
-        Number_Liste.add("13");
-        Number_Liste.add("14");
-        Number_Liste.add("15");
+        List<String> Number_Liste = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"));
+
+        List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5","Plus 5","Plus 5","Minus 5","Minus 5","Minus 5","Trumpfwechsel","Trumpfwechsel","Trumpfwechsel","Trumpfwechsel","Kein Trumpf","Kein Trumpf","Kein Trumpf","Kein Trumpf","Joker","Joker"));
 
         // Erstellen von Karten mit jeder Kombination aus Farbe und Nummer
         for (String farbe : Farben_Liste) {
             for (String number : Number_Liste) {
-                new Karten(farbe, number);
+                Karten_Liste.add( new Karten(farbe, number));
                 System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
+        //Erstellt Besondere Karten
+
     }
+
+
+
 
     public static void main(String[] args) {
         new Spiel(); // Starten des Spiels
     }
+
+
 }
