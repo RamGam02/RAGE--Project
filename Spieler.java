@@ -3,6 +3,8 @@ import java.util.List;
 
 public class Spieler {
 
+    // Hallo
+
     // arrray mit handkarten
 
 
