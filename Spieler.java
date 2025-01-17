@@ -31,5 +31,17 @@ public class Spieler {
         //Kriterium 1-1000
 
 
+    private String Name;
+    private int Punkte;
+    private int Wette;
+    
+
+    public Spieler (String pName, int pPunkte, int pWette){
+
+        this.Name = pName;
+        this.Punkte = pPunkte;
+        this.Wette = pWette;
+        
+    }
 
 }
