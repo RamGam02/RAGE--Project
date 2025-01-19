@@ -2,7 +2,7 @@ public class Runde{
 
     private int Anzahl_Runde;
     private int Anzahl_Karten;          // Variablen für die Klasse
-    public String Trumpf;
+    public String Trumpf;                 // Trumpf muss auch eine Zahl haben, da diese im Spiel dann fehlt!!
     public String ausgespielteFarbe;
     
 
