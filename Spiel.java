@@ -1,24 +1,34 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Spiel{
+public class Spiel {
+
+    // Erstellt Variablen für die Klasse
+    
+    private final String Trumpf = "lol"; // für später
 
     public Spiel() {
-        
-        List<String> Karten_Liste = new ArrayList<>();
-        List<String> Farben_Liste = new ArrayList<>();
-        List<String> Karte_Typ_Liste = new ArrayList<>();
 
-        Farben_Liste.add("Grün");
-        Farben_Liste.add("Gelb");
-        Farben_Liste.add("Rot");
-        Farben_Liste.add("Orange");
-        Farben_Liste.add("Lilla");
-        Farben_Liste.add("Blau");
 
+        // Erstellen von Listen für Karten
+        List<Karten> Karten_Liste = new ArrayList<>();       
+
+        // Hinzufügen von Farben zur Farben_Liste
+        List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
+
+
+        // Hinzufügen von Nummern zur Number_Liste
+        List<String> Number_Liste = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"));
+
+        List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5","Plus 5","Plus 5","Minus 5","Minus 5","Minus 5","Trumpfwechsel","Trumpfwechsel","Trumpfwechsel","Trumpfwechsel","Kein Trumpf","Kein Trumpf","Kein Trumpf","Kein Trumpf","Joker","Joker"));
+
+        // Erstellen von Karten mit jeder Kombination aus Farbe und Nummer
         for (String farbe : Farben_Liste) {
-            System.out.println(farbe);
-            
+            for (String number : Number_Liste) {
+                Karten_Liste.add( new Karten(farbe, number));
+                System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
+            }
         }
         
         //Spiel hat 10 Runden
@@ -57,6 +67,16 @@ public class Spiel{
         //Alle Karten werden erneut gemischt
         //Jeder Spieler erhält eine Karte weniger als in der Vorrunde
 
+        //Erstellt Besondere Karten
 
     }
+
+
+
+
+    public static void main(String[] args) {
+        new Spiel(); // Starten des Spiels
+    }
+
+
 }
