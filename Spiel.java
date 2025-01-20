@@ -78,5 +78,7 @@ public class Spiel {
         new Spiel(); // Starten des Spiels
     }
 
+    // Einen Trumpf aufdecken vom Ziehstapel (zu dem oben)
+
 
 }
