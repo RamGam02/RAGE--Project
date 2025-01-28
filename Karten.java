@@ -21,4 +21,4 @@ public class Karten{
     
 }
 
-public class Special_Karten extends Karten 
+//public class Special_Karten extends Karten 
