@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-<<<<<<<< HEAD:Karten.java
-
-
-
-
 
 public class Karten{
-=======
 
-public class Karten {
->>>>>>> 3a171f616ec1bd8669aa7626561351b7e315e238
-    private String farbe;
+
+public class Karten {    private String farbe;
     private String wert;
 
 
@@ -29,12 +21,10 @@ public class Karten {
 }
 
 //public class Special_Karten extends Karten 
-========
+
 public class Special_Karten {
     
-}
->>>>>>>> 3a171f616ec1bd8669aa7626561351b7e315e238:Special_Karten.java
-=======
+
 
         //Aktionskarten
         //  >Joker
@@ -53,5 +43,3 @@ public class Special_Karten extends Karten {
         super(pFarbe, aktion);
     }
 }
-
->>>>>>> 3a171f616ec1bd8669aa7626561351b7e315e238
