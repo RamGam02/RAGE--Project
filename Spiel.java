@@ -11,7 +11,6 @@ class Karten {
         this.number = number;
     }
 
-    @Override
     public String toString() {
         return farbe + " " + number;
     }
@@ -21,8 +20,17 @@ public class Spiel {
 
     // Erstellt Variablen für die Klasse
     private final String Trumpf = "lol"; // für später
+    private final int Runde =0; // für später
+    private final int Spieler_Anzahl = 4; // für später
 
     public Spiel() {
+
+        // Erstellen von Karten
+        Staple_erstellen();
+    }
+
+    private static void Staple_erstellen() {
+            
         // Erstellen von Listen für Karten
         List<Karten> Karten_Liste = new ArrayList<>();
 
@@ -41,44 +49,68 @@ public class Spiel {
                 System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
+        }
+         
+        public void Spielstart(int Spieler_Anzahl) {
+            int ersterAusspieler = (int) (Math.random() * Spieler_Anzahl); 
+            System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler); //Füge die Klasse Speiler hinzu
+            for (int runde = 10; runde > 0; runde--) {
+                // Erste Runde 10 Karten, zweite Runde 9 Karten, dritte Runde 8 Karten,...
+                int kartenProSpieler = runde;
+        }
+
+
+
+            // Erster Ausspieler ist random (Bei folgenden Runden weiter nach links verschoben)
+            // Weiteres Ausspielen vom Spieler der den letzten Stich gemacht hat
         
-        //Spiel hat 10 Runden
-        //Erste Runde 10 Karten, zweite Runde 9 Karten, dritte Runde 8 Karten,...
+        public void Runde(int kartenProSpieler, List<Karten> Karten_Liste) {
+                // 2 Kartenstapel
+                //  >Ziehstapel (alle Karten)
+                //  >Ablagestapel (Jeder Spieler einen)
+                List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
+                List<Karten> ablagestapel = new ArrayList<>();
+        }
+        public void Mischen(List<Karten> Ziehstapel) {
+            // Karten werden gemischt
+        }
+        public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
+        }    
 
-        //Erster Ausspieler ist random (Bei folgenden Runden weiter nach links verschoben)
-        //Weiteres Ausspielen vom Spieler der den letzten Stich gemacht hat
+        public void Wetten(){}
 
-        //2 Kartenstapel
-        //  >Talon (Ziehstapel)
-        //  >Ablagestapel (Jeder Spieler einen)
-        //Nach dem Austeilen(automatisch), erste Karte vom Talon seperat ablegen (diese farbe ist Trumpf)
-        //  >wenn es eine Aktionskarte ist, gilt die erste gespielte Karte als Trupffarbe
+        public void erste_Karte() {}
 
-        //Spieler geben ihre Stichwette ab
-        //  >0 Stiche sind auch valide
-        //Ansagen werden notiert/angezeigt
+            // Spieler geben ihre Stichwette ab
+            //  >0 Stiche sind auch valide
+        
 
-        //Spielrichtung ist im Uhrzeigersinn
+            // Ansagen werden notiert/angezeigt
 
-        //Es gilt Farbzwang, nur bei nicht besitzen der Farbe andere Karte gestattet
-        //Man kann abwerchen, solange der Farbzwang nicht verletzt wird
-        //Kein Trumpfzwang, 
-        //  >solange man noch andere Karten außer Trumpf besitzt, muss auch nicht mit Trumpf gestochen werden
+            // Spielrichtung ist im Uhrzeigersinn
 
-        //Den Stich gewinnt die höchste Karte in der aktuellen Trumpffarbe
-        //  >Liegt kein Trumpf im Stich, gewinnt die höchste Karte in der zuerst gespielten Farbe
-        //Gewonne Stiche kommen auf den Ablagestapel des Siegers
+            // Es gilt Farbzwang, nur bei nicht besitzen der Farbe andere Karte gestattet
+            // Man kann abwerchen, solange der Farbzwang nicht verletzt wird
+            // Kein Trumpfzwang, 
+            //  >solange man noch andere Karten außer Trumpf besitzt, muss auch nicht mit Trumpf gestochen werden
 
-        //Bei Ende der Runde Punkteabrechnung
-        //  >Richtige Wette +10 Punkte
-        //  >Falsche Wette -5 Punkte
-        //  >Jeder Stich +1 Punkt
-        //  >Aktionskarte in Ablagestapel (+5 Punkte/-5 Punkte)
+            // Den Stich gewinnt die höchste Karte in der aktuellen Trumpffarbe
+            //  >Liegt kein Trumpf im Stich, gewinnt die höchste Karte in der zuerst gespielten Farbe
+            // Gewonne Stiche kommen auf den Ablagestapel des Siegers
 
-        //Alle Karten werden erneut gemischt
-        //Jeder Spieler erhält eine Karte weniger als in der Vorrunde
+            // Bei Ende der Runde Punkteabrechnung
+            //  >Richtige Wette +10 Punkte
+            //  >Falsche Wette -5 Punkte
+            //  >Jeder Stich +1 Punkt
+            //  >Aktionskarte in Ablagestapel (+5 Punkte/-5 Punkte)
 
-        //Erstellt Besondere Karten
+            // Alle Karten werden erneut gemischt
+            // Jeder Spieler erhält eine Karte weniger als in der Vorrunde
+
+            // Erstellen von Karten für die nächste Runde
+
+
+
 
     }
 
