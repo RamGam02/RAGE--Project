@@ -34,9 +34,10 @@ public class Spieler {
         //Kriterium 1-1000
 
 
-    private String Name;
-    private int Punkte;
-    private int Wette;
+    public String Name;
+    public int Punkte;
+    public int Wette;
+    public int Stiche_gewonnen;
     List<Karten> Handkarten = new ArrayList<>();
     
     
@@ -51,18 +52,23 @@ public class Spieler {
 
         
 
-        public void Karte_Legen(){
-            // Anzeigen der Hand Karten
-            // Auswahl der Gewünschten Karte
-            // Kontrolle der Karte 
-            //  Ausgabe in die Runde 
-            // nächste Zug (Spiel)
-        }
-        public void Wetten(){
-            //Wette abgeben
-        }
+    public void Karte_Legen(){
+        // Anzeigen der Hand Karten
+        // Auswahl der Gewünschten Karte
+        // Kontrolle der Karte 
+        //  Ausgabe in die Runde 
+        // nächste Zug (Spiel)
+    }
+    public void Wetten(){
+        //Wette abgeben
+    }
+    public void wette_geschaft(){
+        //Wette gewonnen?
         
     }
+    public int getPunkte(){
+        
+        return Punkte;}
 
     
     } 

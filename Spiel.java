@@ -1,20 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.*;
-
-class Karten {
-    private String farbe;
-    private String number;
-
-    public Karten(String farbe, String number) {
-        this.farbe = farbe;
-        this.number = number;
-    }
-
-    public String toString() {
-        return farbe + " " + number;
-    }
-}
+import java.util.*; 
 
 public class Spiel {
 
@@ -69,43 +55,90 @@ public class Spiel {
                 int kartenProSpieler = runde;
                 Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
             }
-        }
- 
-        public void Runde (int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
+        Spiel_auswerten();
+    }
+
+    public void Runde (int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
                 
-                Mischen(Ziehstapel);
-                Austeilen(kartenProSpieler, Ziehstapel);
-                Wetten(Ersterspieler);
-                for (int i = 0; i < kartenProSpieler; i++) {
-                    for (Spieler spieler : Spieler_Liste) {
-                        spieler.Karte_Legen(); // Methode Karte_Legen in Klasse Spieler pls someone do that make that happen
-                    }
-                }
-                Auswerten();
-
-
+        Mischen(Ziehstapel);
+        Austeilen(kartenProSpieler, Ziehstapel);
+        Trumpf_Karte();
+        Wetten(Ersterspieler);
+        for (int i = 0; i < kartenProSpieler; i++) {
+            for (Spieler spieler : Spieler_Liste) {
+                    spieler.Karte_Legen(); // Methode Karte_Legen in Klasse Spieler pls someone do that make that happen
+            }
         }
-        public void Mischen(List<Karten> Ziehstapel) {
+        Runde_Auswerten();
+
+
+    }
+    public void Mischen(List<Karten> Ziehstapel) {
             // Karten werden gemischt
             Collections.shuffle(Ziehstapel);
-        }
-        public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
+    }
+    public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
             // Karten werden ausgeteilt
             for (int i = 0; i < kartenProSpieler; i++) {
                 for (Spieler spieler : Spieler_Liste) {
-                    spieler.Handkarten.add(Ziehstapel.remove(0)); // Methode Handkarten in Klasse Spieler pls someone do that make that happen
+                    spieler.Handkarten.add(Ziehstapel.remove(0)); // Methode Handkarten in Klasse Spieler pls someone do that :(
                 }
             }
-        }    
-        public void Wetten(Spieler StartSpieler){
+    }    
+    public void Wetten(Spieler StartSpieler){ // add sorting for forst player
             // Wetten werden abgegeben   
-        }
-        public void erste_Karte() {
-            // Erste Karte wird aufgedeckt          
-        }
-        public void Auswerten() {
+            for (Spieler spieler : Spieler_Liste) {
+                spieler.Wetten(); // Methode Wetten in Klasse Spieler pls someone do that ?? :(
+            }
+    }
+    public void Trumpf_Karte() {
+            // Erste Karte wird aufgedeckt   
+            Karten erste_Karte = Ziehstapel.remove(0);    
+            //if erste_Karte.Farbe != special
+            //   Trumpf = erste_Karte.Farbe
+
+    }
+    public void Runde_Auswerten() {
             // Auswertung der Runde
+        for (Spieler spieler : Spieler_Liste) {
+            if (spieler.wette_geschaft = true ){ //plllllllllllllllllllllllsssss add 
+                spieler.Punkte += 10;
+            }
         }
+    }
+    public void Spiel_auswerten() {
+        // Auswertung des Spiels
+        Spieler_Liste.sort(Comparator.comparing(Spieler::getPunkte));
+        System.err.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
+    }
+    public void Stich_auswerten(List<Karten> Stich) {
+        // Auswertung des Stichs
+        List<Karten> Trumpf_Liste = new ArrayList<>();        
+        List<Karten> Nicht_Trumpf_Liste = new ArrayList<>();
+        for (Karten karte : Stich) {
+            if (karte.Farbe == Trumpf) {
+                // Trumpf
+                Trumpf_Liste.add(karte);
+
+            } else {
+                // Kein Trumpf
+                Nicht_Trumpf_Liste.add(karte);               
+            }
+        }
+        // add special card stuff und joker
+        if (Trumpf_Liste.size() > 0) {
+            // Trumpf gewinnt
+            Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
+            Karten Stich_Gewinner = Trumpf_Liste.get(0);
+            Spieler Gewinner = Stich_Gewinner.getBesitzer();
+        } else {
+            // Kein Trumpf gewinnt
+            Nicht_Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
+            Karten Stich_Gewinner = Nicht_Trumpf_Liste.get(0);
+            Spieler Gewinner = Stich_Gewinner.getBesitzer();    
+        }
+        
+    }
 
     public static void main(String[] args) {
         new Spiel(); // Starten des Spiels
