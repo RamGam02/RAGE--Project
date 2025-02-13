@@ -38,7 +38,7 @@ public class Spiel {
                 System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
-
+        // Für so special karten 
             //for (String karte_typ : Karte_Typ_Liste) {
             //    Karten_Liste.add(new Karten(farbe, karte_typ));
             //    System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
@@ -101,7 +101,7 @@ public class Spiel {
     public void Runde_Auswerten() {
             // Auswertung der Runde
         for (Spieler spieler : Spieler_Liste) {
-            if (spieler.wette_geschaft = true ){ //plllllllllllllllllllllllsssss add 
+            if (spieler.wette_geschafft = true ){ //plllllllllllllllllllllllsssss add 
                 spieler.Punkte += 10;
             }
         }
@@ -116,7 +116,7 @@ public class Spiel {
         List<Karten> Trumpf_Liste = new ArrayList<>();        
         List<Karten> Nicht_Trumpf_Liste = new ArrayList<>();
         for (Karten karte : Stich) {
-            if (karte.Farbe == Trumpf) {
+            if (karte.getFarbe() == Trumpf) {
                 // Trumpf
                 Trumpf_Liste.add(karte);
 

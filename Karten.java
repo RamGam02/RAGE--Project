@@ -15,6 +15,8 @@ public class Karten {
     public Spieler getBesitzer() {
         return spieler;
     }
-
+    public String getFarbe() {
+        return Farbe;
+    }
     
 }
