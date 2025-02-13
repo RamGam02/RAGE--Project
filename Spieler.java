@@ -37,6 +37,7 @@ public class Spieler {
     private String Name;
     private int Punkte;
     private int Wette;
+    List<Karten> Handkarten = new ArrayList<>();
     
     
 
@@ -46,6 +47,20 @@ public class Spieler {
         this.Name = pName;
         this.Punkte = pPunkte;
         this.Wette = pWette;
+    }
+
+        
+
+        public void Karte_Legen(){
+            // Anzeigen der Hand Karten
+            // Auswahl der Gewünschten Karte
+            // Kontrolle der Karte 
+            //  Ausgabe in die Runde 
+            // nächste Zug (Spiel)
+        }
+        public void Wetten(){
+            //Wette abgeben
+        }
         
     }
 

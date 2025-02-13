@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Karten {
     private String farbe;
@@ -22,6 +22,12 @@ public class Spiel {
     private final String Trumpf = "lol"; // für später
     private final int Runde =0; // für später
     private final int Spieler_Anzahl = 4; // für später
+    // Erstellen von Listen für Spieler
+    private List<Spieler> Spieler_Liste = new ArrayList<>();
+    // Erstellen von Listen für Karten
+    private List<Karten> Karten_Liste = new ArrayList<>();
+    List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
+    List<Karten> ablagestapel = new ArrayList<>();
 
     public Spiel() {
 
@@ -29,10 +35,7 @@ public class Spiel {
         Staple_erstellen();
     }
 
-    private static void Staple_erstellen() {
-            
-        // Erstellen von Listen für Karten
-        List<Karten> Karten_Liste = new ArrayList<>();
+    private void Staple_erstellen() {        
 
         // Hinzufügen von Farben zur Farben_Liste
         List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
@@ -49,70 +52,60 @@ public class Spiel {
                 System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
-        }
-         
-        public void Spielstart(int Spieler_Anzahl) {
-            int ersterAusspieler = (int) (Math.random() * Spieler_Anzahl); 
-            System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler); //Füge die Klasse Speiler hinzu
-            for (int runde = 10; runde > 0; runde--) {
+
+            //for (String karte_typ : Karte_Typ_Liste) {
+            //    Karten_Liste.add(new Karten(farbe, karte_typ));
+            //    System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
+        //}
+        
+    }    
+
+
+    public void Spielstart(int Spieler_Anzahl) {
+        Spieler ersterAusspieler = Spieler_Liste. get( (int) (Math.random() * Spieler_Anzahl)); 
+        System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler); //Füge die Klasse Speiler hinzu
+        for (int runde = 10; runde > 0; runde--) {
                 // Erste Runde 10 Karten, zweite Runde 9 Karten, dritte Runde 8 Karten,...
                 int kartenProSpieler = runde;
+                Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
+            }
         }
+ 
+        public void Runde (int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
+                
+                Mischen(Ziehstapel);
+                Austeilen(kartenProSpieler, Ziehstapel);
+                Wetten(Ersterspieler);
+                for (int i = 0; i < kartenProSpieler; i++) {
+                    for (Spieler spieler : Spieler_Liste) {
+                        spieler.Karte_Legen(); // Methode Karte_Legen in Klasse Spieler pls someone do that make that happen
+                    }
+                }
+                Auswerten();
 
 
-
-            // Erster Ausspieler ist random (Bei folgenden Runden weiter nach links verschoben)
-            // Weiteres Ausspielen vom Spieler der den letzten Stich gemacht hat
-        
-        public void Runde(int kartenProSpieler, List<Karten> Karten_Liste) {
-                // 2 Kartenstapel
-                //  >Ziehstapel (alle Karten)
-                //  >Ablagestapel (Jeder Spieler einen)
-                List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
-                List<Karten> ablagestapel = new ArrayList<>();
         }
         public void Mischen(List<Karten> Ziehstapel) {
             // Karten werden gemischt
+            Collections.shuffle(Ziehstapel);
         }
         public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
+            // Karten werden ausgeteilt
+            for (int i = 0; i < kartenProSpieler; i++) {
+                for (Spieler spieler : Spieler_Liste) {
+                    spieler.Handkarten.add(Ziehstapel.remove(0)); // Methode Handkarten in Klasse Spieler pls someone do that make that happen
+                }
+            }
         }    
-
-        public void Wetten(){}
-
-        public void erste_Karte() {}
-
-            // Spieler geben ihre Stichwette ab
-            //  >0 Stiche sind auch valide
-        
-
-            // Ansagen werden notiert/angezeigt
-
-            // Spielrichtung ist im Uhrzeigersinn
-
-            // Es gilt Farbzwang, nur bei nicht besitzen der Farbe andere Karte gestattet
-            // Man kann abwerchen, solange der Farbzwang nicht verletzt wird
-            // Kein Trumpfzwang, 
-            //  >solange man noch andere Karten außer Trumpf besitzt, muss auch nicht mit Trumpf gestochen werden
-
-            // Den Stich gewinnt die höchste Karte in der aktuellen Trumpffarbe
-            //  >Liegt kein Trumpf im Stich, gewinnt die höchste Karte in der zuerst gespielten Farbe
-            // Gewonne Stiche kommen auf den Ablagestapel des Siegers
-
-            // Bei Ende der Runde Punkteabrechnung
-            //  >Richtige Wette +10 Punkte
-            //  >Falsche Wette -5 Punkte
-            //  >Jeder Stich +1 Punkt
-            //  >Aktionskarte in Ablagestapel (+5 Punkte/-5 Punkte)
-
-            // Alle Karten werden erneut gemischt
-            // Jeder Spieler erhält eine Karte weniger als in der Vorrunde
-
-            // Erstellen von Karten für die nächste Runde
-
-
-
-
-    }
+        public void Wetten(Spieler StartSpieler){
+            // Wetten werden abgegeben   
+        }
+        public void erste_Karte() {
+            // Erste Karte wird aufgedeckt          
+        }
+        public void Auswerten() {
+            // Auswertung der Runde
+        }
 
     public static void main(String[] args) {
         new Spiel(); // Starten des Spiels
