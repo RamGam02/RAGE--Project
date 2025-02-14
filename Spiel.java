@@ -39,10 +39,10 @@ public class Spiel {
             }
         }
         // Für so special karten 
-            //for (String karte_typ : Karte_Typ_Liste) {
-            //    Karten_Liste.add(new Karten(farbe, karte_typ));
-            //    System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
-        //}
+         for (String karte_typ : Karte_Typ_Liste) {
+                Karten_Liste.add(new Karten(farbe, karte_typ));
+                System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
+        }
         
     }    
 
@@ -125,6 +125,19 @@ public class Spiel {
                 Nicht_Trumpf_Liste.add(karte);               
             }
         }
+
+        for (Karten karte : Stich) {
+            if (karte.getTyp().equals("Plus 5")) {
+                Spieler Gewinner = Spieler_Liste.get(0); 
+                Gewinner.setPunkte(Gewinner.getPunkte() + 5); 
+            }
+
+            if (karte.getTyp().equals("Minus 5")) {
+                Spieler Gewinner = Spieler_Liste.get(0); 
+                Gewinner.setPunkte(Gewinner.getPunkte() - 5); 
+            }
+        }
+
         // add special card stuff und joker
         if (Trumpf_Liste.size() > 0) {
             // Trumpf gewinnt

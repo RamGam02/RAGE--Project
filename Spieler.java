@@ -66,6 +66,9 @@ public class Spieler {
         //Wette gewonnen?
         
     }
+    public void setPunkte(int punkte) {
+        this.Punkte = punkte;
+    }
     public int getPunkte(){
         
         return Punkte;}
