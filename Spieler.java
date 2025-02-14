@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Spieler {
 
@@ -41,12 +42,13 @@ public class Spieler {
     List<Karten> Handkarten = new ArrayList<>();
     
     
+    
 
-    public Spieler (String pName, int pPunkte, int pWette){
+    public Spieler (String pName, int pWette){
         
         List<String> Karten_Liste = new ArrayList<>();
         this.Name = pName;
-        this.Punkte = pPunkte;
+        this.Punkte = 0;
         this.Wette = pWette;
     }
 
@@ -65,9 +67,6 @@ public class Spieler {
     public void wette_geschaft(){
         //Wette gewonnen?
         
-    }
-    public void setPunkte(int punkte) {
-        this.Punkte = punkte;
     }
     public int getPunkte(){
         
