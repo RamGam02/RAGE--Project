@@ -52,7 +52,50 @@ public class Spieler {
         this.Wette = pWette;
     }
 
-        
+    public void Wetten(){
+        Scanner scanner = new Scanner(System.in);
+    
+        System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
+        while(true){
+            try {
+                int input = Integer.parseInt(scanner.nextLine());
+                if (input >= 0){
+                    int Wette = input;
+                    System.out.println(Name + " hat " + Wette + " Stiche gewettet.");
+                    break;
+                }else{
+                    System.out.println("Bitte eine gültig Wette eingeben! (0 oder mehr)");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Ungültige Eingabe!! Bitte eine Zahl eingeben!");
+            }
+        }
+    }
+    
+    public int get_Wette(){
+        return Wette;
+    }
+    
+    public void Karte_Legen(){
+        // Anzeigen der Handkarten
+        // Auswahl der gewünschten Karte
+        // Kontrolle der Karte
+        // Ausgabe in die Runde
+        // Nächster Zug (Spiel)
+    }
+    
+    
+    
+    public boolean Wette_geschafft(){
+        return false;
+        // Wette gewonnen?
+    
+    }
+    
+    public void set_Punkte{
+    
+    
+    }    
 
     public void Karte_Legen(){
         // Anzeigen der Hand Karten
