@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Spieler {
 
@@ -41,34 +42,63 @@ public class Spieler {
     List<Karten> Handkarten = new ArrayList<>();
     
     
+    
 
-    public Spieler (String pName, int pPunkte, int pWette){
+    public Spieler (String pName, int pWette){
         
         List<String> Karten_Liste = new ArrayList<>();
         this.Name = pName;
-        this.Punkte = pPunkte;
+        this.Punkte = 0;
         this.Wette = pWette;
+        
+        
     }
 
-        
 
-    public void Karte_Legen(){
-        // Anzeigen der Hand Karten
-        // Auswahl der Gewünschten Karte
-        // Kontrolle der Karte 
-        //  Ausgabe in die Runde 
-        // nächste Zug (Spiel)
+public void Wetten(){
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
+    while(true){
+        try {
+            int input = Integer.parseInt(scanner.nextLine());
+            if (input >= 0){
+                int Wette = input;
+                System.out.println(Name + " hat " + Wette + " Stiche gewettet.");
+                break;
+            }else{
+                System.out.println("Bitte eine gültig Wette eingeben! (0 oder mehr)");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe!! Bitte eine Zahl eingeben!");
+        }
     }
-    public void Wetten(){
-        //Wette abgeben
-    }
-    public void wette_geschaft(){
-        //Wette gewonnen?
-        
-    }
-    public int getPunkte(){
-        
-        return Punkte;}
+}
+
+public int get_Wette(){
+    return Wette;
+}
+
+public void Karte_Legen(){
+    // Anzeigen der Handkarten
+    // Auswahl der gewünschten Karte
+    // Kontrolle der Karte
+    // Ausgabe in die Runde
+    // Nächster Zug (Spiel)
+}
+
+
+
+public boolean Wette_geschafft(){
+    return false;
+    // Wette gewonnen?
+
+}
+
+public void set_Punkte{
+
+
+}
 
     
     } 
