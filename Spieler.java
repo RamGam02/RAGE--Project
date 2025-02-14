@@ -76,13 +76,7 @@ public class Spieler {
         return Wette;
     }
     
-    public void Karte_Legen(){
-        // Anzeigen der Handkarten
-        // Auswahl der gewünschten Karte
-        // Kontrolle der Karte
-        // Ausgabe in die Runde
-        // Nächster Zug (Spiel)
-    }
+    
     
     
     
@@ -92,10 +86,7 @@ public class Spieler {
     
     }
     
-    public void set_Punkte{
-    
-    
-    }    
+      
 
     public void Karte_Legen(){
         // Anzeigen der Hand Karten
@@ -104,9 +95,7 @@ public class Spieler {
         //  Ausgabe in die Runde 
         // nächste Zug (Spiel)
     }
-    public void Wetten(){
-        //Wette abgeben
-    }
+    
     public void wette_geschaft(){
         //Wette gewonnen?
         
