@@ -101,7 +101,7 @@ public class Spiel {
     public void Runde_Auswerten() {
             // Auswertung der Runde
         for (Spieler spieler : Spieler_Liste) {
-            if (spieler.wette_geschafft = true ){ //plllllllllllllllllllllllsssss add 
+            if (spieler.Wette_geschafft = true ){ 
                 spieler.Punkte += 10;
             }
         }

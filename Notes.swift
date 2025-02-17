@@ -1,5 +1,5 @@
 // Spieler geben ihre Stichwette ab
-            //  >0 Stiche sind auch valide
+            //  >=0 Stiche sind auch valide
             // Erster Ausspieler ist random (Bei folgenden Runden weiter nach links verschoben)
             // Weiteres Ausspielen vom Spieler der den letzten Stich gemacht hat
 
