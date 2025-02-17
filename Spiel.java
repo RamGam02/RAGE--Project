@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.*; 
 
-public class Spiel {
+public class Spiel { 
 
     // Erstellt Variablen für die Klasse
     private final String Trumpf = "lol"; // für später
@@ -38,11 +38,11 @@ public class Spiel {
                 System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
-        // Für so special karten 
-         for (String karte_typ : Karte_Typ_Liste) {
-                Karten_Liste.add(new Karten(farbe, karte_typ));
-                System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
-        }
+
+            //for (String karte_typ : Karte_Typ_Liste) {
+            //    Karten_Liste.add(new Karten(farbe, karte_typ));
+            //    System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
+        //}
         
     }    
 
@@ -101,7 +101,7 @@ public class Spiel {
     public void Runde_Auswerten() {
             // Auswertung der Runde
         for (Spieler spieler : Spieler_Liste) {
-            if (spieler.Wette_geschafft = true ){ 
+            if (spieler.wette_geschafft = true ){ //plllllllllllllllllllllllsssss add 
                 spieler.Punkte += 10;
             }
         }
@@ -116,7 +116,7 @@ public class Spiel {
         List<Karten> Trumpf_Liste = new ArrayList<>();        
         List<Karten> Nicht_Trumpf_Liste = new ArrayList<>();
         for (Karten karte : Stich) {
-            if (karte.getFarbe() == Trumpf) {
+            if (karte.Farbe == Trumpf) {
                 // Trumpf
                 Trumpf_Liste.add(karte);
 
@@ -125,19 +125,6 @@ public class Spiel {
                 Nicht_Trumpf_Liste.add(karte);               
             }
         }
-
-        for (Karten karte : Stich) {
-            if (karte.getTyp().equals("Plus 5")) {
-                Spieler Gewinner = Spieler_Liste.get(0); 
-                Gewinner.setPunkte(Gewinner.getPunkte() + 5); 
-            }
-
-            if (karte.getTyp().equals("Minus 5")) {
-                Spieler Gewinner = Spieler_Liste.get(0); 
-                Gewinner.setPunkte(Gewinner.getPunkte() - 5); 
-            }
-        }
-
         // add special card stuff und joker
         if (Trumpf_Liste.size() > 0) {
             // Trumpf gewinnt
