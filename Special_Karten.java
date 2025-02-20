@@ -22,11 +22,32 @@ import java.util.List;
 class Karten {
     protected String farbe;
     protected int wert;
+    protected Spieler spieler;
 
     public Karten(String farbe, int wert) {
         this.farbe = farbe;
         this.wert = wert;
     }
+    public String getFarbe() {
+        return farbe;
+    }
+
+
+
+    public int getWert() {
+        return wert;
+    }
+    public void setWert(int wert) {
+        this.wert = wert;
+    }
+    public void setFarbe(String farbe) {
+        this.farbe = farbe;
+    }
+    public String toString() {
+        return farbe + " " + wert;
+    }
+    public Spieler getBesitzer() {
+        return spieler;
 }
 
 public class Special_Karten extends Karten {
@@ -47,4 +68,5 @@ public class Special_Karten extends Karten {
         }
     
     }
+}
 }

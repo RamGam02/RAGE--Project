@@ -1,150 +1,184 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.*; 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-public class Spiel { 
+public class Spiel extends JFrame {
 
-    // Erstellt Variablen für die Klasse
-    private final String Trumpf = "lol"; // für später
-    private final int Runde =0; // für später
-    private final int Spieler_Anzahl = 4; // für später
-    // Erstellen von Listen für Spieler
+    private final String Trumpf = "lol"; // for later
+    private final int Runde = 0; // for later
+    private final int Spieler_Anzahl = 4; // for later
     private List<Spieler> Spieler_Liste = new ArrayList<>();
-    // Erstellen von Listen für Karten
     public List<Karten> Karten_Liste = new ArrayList<>();
     public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
     public List<Karten> ablagestapel = new ArrayList<>();
 
-    public Spiel() {
+    private JPanel tablePanel;
+    private JPanel handPanel;
 
-        // Erstellen von Karten
+    public Spiel() {
+        setTitle("Kartenspiel");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        tablePanel = new JPanel();
+        tablePanel.setLayout(new GridLayout(1, 4));
+        add(tablePanel, BorderLayout.CENTER);
+
+        handPanel = new JPanel();
+        handPanel.setLayout(new FlowLayout());
+        add(handPanel, BorderLayout.SOUTH);
+
         Staple_erstellen();
+        initializeUI();
+
+        setVisible(true);
     }
 
-    private void Staple_erstellen() {        
+    private void initializeUI() {
+        // Initialize table and hand panels
+        updateTablePanel();
+        updateHandPanel();
+    }
 
-        // Hinzufügen von Farben zur Farben_Liste
-        List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
+    private void updateTablePanel() {
+        tablePanel.removeAll();
+        for (Karten karte : Karten_Liste) {
+            JLabel cardLabel = new JLabel(karte.toString());
+            tablePanel.add(cardLabel);
+        }
+        tablePanel.revalidate();
+        tablePanel.repaint();
+    }
 
-        // Hinzufügen von Nummern zur Number_Liste
-        List<String> Number_Liste = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"));
-
-        List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
-
-        // Erstellen von Karten mit jeder Kombination aus Farbe und Nummer
-        for (String farbe : Farben_Liste) {
-            for (String number : Number_Liste) {
-                Karten_Liste.add(new Karten(farbe, number));
-                System.out.println(farbe + " " + number); // Ausgabe der erstellten Karte
+    private void updateHandPanel() {
+        handPanel.removeAll();
+        for (Spieler spieler : Spieler_Liste) {
+            for (Karten karte : spieler.Handkarten) {
+                JButton cardButton = new JButton(karte.toString());
+                cardButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Handle card selection
+                        System.out.println("Ausgewählte Karte: " + karte);
+                    }
+                });
+                handPanel.add(cardButton);
             }
         }
+        handPanel.revalidate();
+        handPanel.repaint();
+    }
 
-            //for (String karte_typ : Karte_Typ_Liste) {
-            //    Karten_Liste.add(new Karten(farbe, karte_typ));
-            //    System.out.println(farbe + " " + karte_typ); // Ausgabe der erstellten Karte
-        //}
-        
-    }    
+    private void Staple_erstellen() {
+        List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
+        List<Integer> Number_Liste = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+        List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
 
+        for (String farbe : Farben_Liste) {
+            for (int number : Number_Liste) {
+                Karten_Liste.add(new Karten(farbe, number));
+                System.out.println("Erstellte Karte: " + farbe + " " + number); // Ausgabe der erstellten Karte
+            }
+        }
+    }
 
     public void Spielstart(int Spieler_Anzahl) {
-        Spieler ersterAusspieler = Spieler_Liste. get( (int) (Math.random() * Spieler_Anzahl)); 
-        System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler); //Füge die Klasse Speiler hinzu
+        Spieler ersterAusspieler = Spieler_Liste.get((int) (Math.random() * Spieler_Anzahl));
+        System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler);
         for (int runde = 10; runde > 0; runde--) {
-                // Erste Runde 10 Karten, zweite Runde 9 Karten, dritte Runde 8 Karten,...
-                int kartenProSpieler = runde;
-                Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
-            }
+            int kartenProSpieler = runde;
+            System.out.println("Runde " + (11 - runde) + " mit " + kartenProSpieler + " Karten pro Spieler");
+            Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
+        }
         Spiel_auswerten();
     }
 
-    public void Runde (int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
-                
+    public void Runde(int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
+        System.out.println("Runde beginnt mit " + kartenProSpieler + " Karten pro Spieler");
         Mischen(Ziehstapel);
         Austeilen(kartenProSpieler, Ziehstapel);
         Trumpf_Karte();
         Wetten(Ersterspieler);
         for (int i = 0; i < kartenProSpieler; i++) {
             for (Spieler spieler : Spieler_Liste) {
-                    spieler.Karte_Legen(); // Methode Karte_Legen in Klasse Spieler pls someone do that make that happen
+                spieler.Karte_Legen();
             }
         }
         Runde_Auswerten();
-
-
     }
+
     public void Mischen(List<Karten> Ziehstapel) {
-            // Karten werden gemischt
-            Collections.shuffle(Ziehstapel);
+        Collections.shuffle(Ziehstapel);
+        System.out.println("Ziehstapel gemischt");
     }
-    public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
-            // Karten werden ausgeteilt
-            for (int i = 0; i < kartenProSpieler; i++) {
-                for (Spieler spieler : Spieler_Liste) {
-                    spieler.Handkarten.add(Ziehstapel.remove(0)); // Methode Handkarten in Klasse Spieler pls someone do that :(
-                }
-            }
-    }    
-    public void Wetten(Spieler StartSpieler){ // add sorting for forst player
-            // Wetten werden abgegeben   
-            for (Spieler spieler : Spieler_Liste) {
-                spieler.Wetten(); // Methode Wetten in Klasse Spieler pls someone do that ?? :(
-            }
-    }
-    public void Trumpf_Karte() {
-            // Erste Karte wird aufgedeckt   
-            Karten erste_Karte = Ziehstapel.remove(0);    
-            //if erste_Karte.Farbe != special
-            //   Trumpf = erste_Karte.Farbe
 
+    public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
+        for (int i = 0; i < kartenProSpieler; i++) {
+            for (Spieler spieler : Spieler_Liste) {
+                spieler.Handkarten.add(Ziehstapel.remove(0));
+            }
+        }
+        System.out.println("Karten ausgeteilt");
+        updateHandPanel();
     }
-    public void Runde_Auswerten() {
-            // Auswertung der Runde
+
+    public void Wetten(Spieler StartSpieler) {
         for (Spieler spieler : Spieler_Liste) {
-            if (spieler.wette_geschafft = true ){ //plllllllllllllllllllllllsssss add 
+            spieler.Wetten();
+        }
+        System.out.println("Wetten abgeschlossen");
+    }
+
+    public void Trumpf_Karte() {
+        Karten erste_Karte = Ziehstapel.remove(0);
+        System.out.println("Trumpfkarte gezogen: " + erste_Karte);
+    }
+
+    public void Runde_Auswerten() {
+        for (Spieler spieler : Spieler_Liste) {
+            if (spieler.Wette_geschafft) {
                 spieler.Punkte += 10;
+                System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und erhält 10 Punkte");
             }
         }
     }
+
     public void Spiel_auswerten() {
-        // Auswertung des Spiels
-        Spieler_Liste.sort(Comparator.comparing(Spieler::getPunkte));
-        System.err.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
+        Spieler_Liste.sort(Comparator.comparing(Spieler::getPunkte).reversed());
+        System.out.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
     }
+
     public void Stich_auswerten(List<Karten> Stich) {
-        // Auswertung des Stichs
-        List<Karten> Trumpf_Liste = new ArrayList<>();        
+        List<Karten> Trumpf_Liste = new ArrayList<>();
         List<Karten> Nicht_Trumpf_Liste = new ArrayList<>();
         for (Karten karte : Stich) {
-            if (karte.Farbe == Trumpf) {
-                // Trumpf
+            if (karte.farbe.equals(Trumpf)) {
                 Trumpf_Liste.add(karte);
-
             } else {
-                // Kein Trumpf
-                Nicht_Trumpf_Liste.add(karte);               
+                Nicht_Trumpf_Liste.add(karte);
             }
         }
-        // add special card stuff und joker
         if (Trumpf_Liste.size() > 0) {
-            // Trumpf gewinnt
             Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
             Karten Stich_Gewinner = Trumpf_Liste.get(0);
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
+            System.out.println("Stich Gewinner (Trumpf): " + Gewinner.Name);
         } else {
-            // Kein Trumpf gewinnt
             Nicht_Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
             Karten Stich_Gewinner = Nicht_Trumpf_Liste.get(0);
-            Spieler Gewinner = Stich_Gewinner.getBesitzer();    
+            Spieler Gewinner = Stich_Gewinner.getBesitzer();
+            System.out.println("Stich Gewinner (Nicht-Trumpf): " + Gewinner.Name);
         }
-        
     }
 
     public static void main(String[] args) {
-        new Spiel(); // Starten des Spiels
+        new Spiel();
     }
-
-    // Einen Trumpf aufdecken vom Ziehstapel (zu dem oben)
-
-
 }
