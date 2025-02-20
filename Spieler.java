@@ -117,10 +117,9 @@ public class Spieler {
         
         return Punkte;}
 
-
-
-    
-
-    
     } 
 
+    public static void main(String[] args) {
+        Spieler spieler = new Spieler("Maxim", 0);
+        spieler.Karte_Legen();
+    }

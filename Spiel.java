@@ -11,9 +11,9 @@ public class Spiel {
     // Erstellen von Listen für Spieler
     private List<Spieler> Spieler_Liste = new ArrayList<>();
     // Erstellen von Listen für Karten
-    private List<Karten> Karten_Liste = new ArrayList<>();
-    List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
-    List<Karten> ablagestapel = new ArrayList<>();
+    public List<Karten> Karten_Liste = new ArrayList<>();
+    public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
+    public List<Karten> ablagestapel = new ArrayList<>();
 
     public Spiel() {
 

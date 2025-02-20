@@ -1,0 +1,5 @@
+<dependency>
+    <groupId>com.github.almasb</groupId>
+    <artifactId>fxgl</artifactId>
+    <version>11.17</version>
+</dependency>
