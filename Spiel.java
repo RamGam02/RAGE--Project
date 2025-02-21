@@ -1,14 +1,11 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Stack;
 
-public class Spiel extends JFrame {
+public class Spiel {
 
     private final String Trumpf = "lol"; // for later
     private final int Runde = 0; // for later
@@ -18,65 +15,13 @@ public class Spiel extends JFrame {
     public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
     public List<Karten> ablagestapel = new ArrayList<>();
 
-    private JPanel tablePanel;
-    private JPanel handPanel;
-
     public Spiel() {
-        setTitle("Kartenspiel");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        tablePanel = new JPanel();
-        tablePanel.setLayout(new GridLayout(1, 4));
-        add(tablePanel, BorderLayout.CENTER);
-
-        handPanel = new JPanel();
-        handPanel.setLayout(new FlowLayout());
-        add(handPanel, BorderLayout.SOUTH);
-
         Staple_erstellen();
-        initializeUI();
-
-        setVisible(true);
+        Spieler_erstellen();
+        Spielstart(Spieler_Anzahl);
     }
 
-    private void initializeUI() {
-        // Initialize table and hand panels
-        updateTablePanel();
-        updateHandPanel();
-    }
-
-    private void updateTablePanel() {
-        tablePanel.removeAll();
-        for (Karten karte : Karten_Liste) {
-            JLabel cardLabel = new JLabel(karte.toString());
-            tablePanel.add(cardLabel);
-        }
-        tablePanel.revalidate();
-        tablePanel.repaint();
-    }
-
-    private void updateHandPanel() {
-        handPanel.removeAll();
-        for (Spieler spieler : Spieler_Liste) {
-            for (Karten karte : spieler.Handkarten) {
-                JButton cardButton = new JButton(karte.toString());
-                cardButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Handle card selection
-                        System.out.println("Ausgewählte Karte: " + karte);
-                    }
-                });
-                handPanel.add(cardButton);
-            }
-        }
-        handPanel.revalidate();
-        handPanel.repaint();
-    }
-
-    private void Staple_erstellen() {
+    public void Staple_erstellen() {
         List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
         List<Integer> Number_Liste = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
         List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
@@ -87,23 +32,48 @@ public class Spiel extends JFrame {
                 System.out.println("Erstellte Karte: " + farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
+        for (String karteTyp : Karte_Typ_Liste) {
+            if (karteTyp.equals("Trumpfwechsel")) {
+                Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
+                trumpfwechsel.ausfuehren(Ziehstapel, Trumpf);
+            } else if (karteTyp.equals("Kein Trumpf")) {
+                KeinTrumpf keinTrumpf = new KeinTrumpf();
+                keinTrumpf.ausfuehren(aktuellerTrumpf);
+            } else if (karteTyp.equals("Joker")) {
+                Joker joker = new Joker();
+                joker.ausfuehren(angesagteFarbe); 
+            }
+        }
     }
+    public void Spieler_erstellen() {
+
+        for (int i = 0; i < Spieler_Anzahl; i++) {
+            Spieler spieler = new Spieler("Spieler " + (i + 1), 0);
+            Spieler_Liste.add(spieler);
+        }
+
+    }
+
 
     public void Spielstart(int Spieler_Anzahl) {
         Spieler ersterAusspieler = Spieler_Liste.get((int) (Math.random() * Spieler_Anzahl));
-        System.out.println("Erster Ausspieler ist Spieler " + ersterAusspieler);
+        
+        System.out.println("Erster Ausspieler ist " + ersterAusspieler.Name);
         for (int runde = 10; runde > 0; runde--) {
             int kartenProSpieler = runde;
-            System.out.println("Runde " + (11 - runde) + " mit " + kartenProSpieler + " Karten pro Spieler");
+            System.out.println("Runde " + (11 - runde) + " beginnt mit " + kartenProSpieler + " Karten pro Spieler");
             Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
         }
         Spiel_auswerten();
     }
 
     public void Runde(int kartenProSpieler, List<Karten> Karten_Liste, Spieler Ersterspieler) {
-        System.out.println("Runde beginnt mit " + kartenProSpieler + " Karten pro Spieler");
+        Ziehstapel.clear();
+        Ziehstapel.addAll(Karten_Liste);
         Mischen(Ziehstapel);
+        System.out.println(kartenProSpieler);
         Austeilen(kartenProSpieler, Ziehstapel);
+        System.out.println("lol");
         Trumpf_Karte();
         Wetten(Ersterspieler);
         for (int i = 0; i < kartenProSpieler; i++) {
@@ -121,12 +91,14 @@ public class Spiel extends JFrame {
 
     public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
         for (int i = 0; i < kartenProSpieler; i++) {
+            
             for (Spieler spieler : Spieler_Liste) {
-                spieler.Handkarten.add(Ziehstapel.remove(0));
+                spieler.Handkarten.add(Ziehstapel.get(0));
+                Ziehstapel.remove(0);
+                
             }
         }
         System.out.println("Karten ausgeteilt");
-        updateHandPanel();
     }
 
     public void Wetten(Spieler StartSpieler) {
@@ -138,12 +110,12 @@ public class Spiel extends JFrame {
 
     public void Trumpf_Karte() {
         Karten erste_Karte = Ziehstapel.remove(0);
-        System.out.println("Trumpfkarte gezogen: " + erste_Karte);
+        System.out.println("Trumpfkarte gezogen: " + erste_Karte.farbe );
     }
 
     public void Runde_Auswerten() {
         for (Spieler spieler : Spieler_Liste) {
-            if (spieler.Wette_geschafft) {
+            if (spieler.ist_Wette_geschafft()) {
                 spieler.Punkte += 10;
                 System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und erhält 10 Punkte");
             }

@@ -24,8 +24,10 @@ public class Spieler {
     public void Wetten() {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
+            
             while (true) {
                 try {
+                    
                     int input = Integer.parseInt(scanner.nextLine());
                     if (input >= 0) {
                         this.Wette = input;
@@ -67,7 +69,7 @@ public class Spieler {
         // Nächster Zug (Spiel)
     }
 
-    public boolean Wette_geschafft() {
+    public boolean ist_Wette_geschafft() {
         Wette_geschafft = (Stiche_gewonnen == Wette);
         System.out.println(Name + " hat die Wette " + (Wette_geschafft ? "geschafft!" : "nicht geschafft."));
         return Wette_geschafft;

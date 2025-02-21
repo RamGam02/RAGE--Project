@@ -8,7 +8,12 @@ Spezial Karten Implementieren
     Karten erstellung
     Auswertung von Stichen+
 
+
 GUI
     Model Karten?
     welches Model
 
+
+
+
+Input Spieler anzahl
