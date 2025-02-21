@@ -17,7 +17,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Stack;
 
 class Karten {
     protected String farbe;
@@ -28,45 +28,75 @@ class Karten {
         this.farbe = farbe;
         this.wert = wert;
     }
+
     public String getFarbe() {
         return farbe;
     }
 
-
-
     public int getWert() {
         return wert;
     }
-    public void setWert(int wert) {
-        this.wert = wert;
-    }
-    public void setFarbe(String farbe) {
-        this.farbe = farbe;
-    }
-    public String toString() {
-        return farbe + " " + wert;
-    }
-    public Spieler getBesitzer() {
-        return spieler;
 }
 
-public class Special_Karten extends Karten {
-    public String Aktion;
-    public String spezielleFarbe;
- 
-    public Special_Karten(String pFarbe, String aktion) {
-        super(pFarbe, 0);
-        this.Aktion = aktion;
-        this.spezielleFarbe = pFarbe;
+class Farbkarte extends Karten {
+    public Farbkarte(String farbe, int wert) {
+        super(farbe, wert);
+    }
+}
 
+class Trumpfwechsel extends Karten {
+    public Trumpfwechsel() {
+        super("Trumpfwechsel", 0);
+    }
+
+    public void ausfuehren(Stack<Karten> nachziehstapel, String aktuellerTrumpf) {
+        Karten gezogeneKarte = nachziehstapel.pop();
+        if (gezogeneKarte instanceof Farbkarte) {
+            aktuellerTrumpf = gezogeneKarte.getFarbe();
+        }
+        // Trumpffarbe bleibt unverändert, wenn keine Farbkarte gezogen wird
+    }
+}
+
+class KeinTrumpf extends Karten {
+    public KeinTrumpf() {
+        super("Kein Trumpf", 0);
+    }
+
+    public void ausfuehren(String aktuellerTrumpf) {
+        // Für den aktuellen Stich gibt es keinen Trumpf
+        aktuellerTrumpf = null;
+    }
+}
+
+class Joker extends Karten {
+    public Joker() {
+        super("Joker", 0);
+    }
+
+    public void ausfuehren(String angesagteFarbe) {
+        this.farbe = angesagteFarbe;
+        this.wert = Integer.MAX_VALUE; // Setze den Wert auf den höchsten möglichen Wert
+    }
+}
+
+public class Special_Karten {
+    public static void main(String[] args) {
         List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
-    
-        for(String karteTyp : Karte_Typ_Liste){
-            if(karteTyp.equals("Trumpfwechsel")){
-                
+        Stack<Karten> nachziehstapel = new Stack<>();
+        String aktuellerTrumpf = Spiel.Trumpf_Karte();
+        String angesagteFarbe = ; // Farbe, die angesagt wird, wenn Joker gespielt wird
+        for (String karteTyp : Karte_Typ_Liste) {
+            if (karteTyp.equals("Trumpfwechsel")) {
+                Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
+                trumpfwechsel.ausfuehren(nachziehstapel, aktuellerTrumpf);
+            } else if (karteTyp.equals("Kein Trumpf")) {
+                KeinTrumpf keinTrumpf = new KeinTrumpf();
+                keinTrumpf.ausfuehren(aktuellerTrumpf);
+            } else if (karteTyp.equals("Joker")) {
+                Joker joker = new Joker();
+                joker.ausfuehren(angesagteFarbe); 
             }
         }
-    
     }
-}
 }
