@@ -3,11 +3,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Stack;
 
 public class Spiel {
 
-    private final String Trumpf = "lol"; // for later
+    private String Trumpf = "lol"; // for later
     private final int Runde = 0; // for later
     private final int Spieler_Anzahl = 4; // for later
     private List<Spieler> Spieler_Liste = new ArrayList<>();
@@ -32,19 +31,21 @@ public class Spiel {
                 System.out.println("Erstellte Karte: " + farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
+
         for (String karteTyp : Karte_Typ_Liste) {
             if (karteTyp.equals("Trumpfwechsel")) {
-                Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
-                trumpfwechsel.ausfuehren(Ziehstapel, Trumpf);
-            } else if (karteTyp.equals("Kein Trumpf")) {
-                KeinTrumpf keinTrumpf = new KeinTrumpf();
-                keinTrumpf.ausfuehren(aktuellerTrumpf);
+            Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
+            Karten_Liste.add(trumpfwechsel);
+            } else if (karteTyp.equals("KeinTrumpf")) {
+            KeinTrumpf keinTrumpf = new KeinTrumpf();
+            Karten_Liste.add(keinTrumpf);
             } else if (karteTyp.equals("Joker")) {
-                Joker joker = new Joker();
-                joker.ausfuehren(angesagteFarbe); 
+            Joker joker = new Joker();
+            Karten_Liste.add(joker);
             }
         }
-    }
+        }
+    
     public void Spieler_erstellen() {
 
         for (int i = 0; i < Spieler_Anzahl; i++) {
@@ -82,6 +83,12 @@ public class Spiel {
             }
         }
         Runde_Auswerten();
+    }
+
+    public void setTrumpf(String neuerTrumpf){
+
+        Trumpf = neuerTrumpf;
+
     }
 
     public void Mischen(List<Karten> Ziehstapel) {
@@ -129,12 +136,20 @@ public class Spiel {
 
     public void Stich_auswerten(List<Karten> Stich) {
         List<Karten> Trumpf_Liste = new ArrayList<>();
-        List<Karten> Nicht_Trumpf_Liste = new ArrayList<>();
+        List<Karten> Angespielte_Liste = new ArrayList<>();
+
+        
+        while (!(Stich.get(0) instanceof Farbkarte)) {
+            Stich.remove(0);
+        }
+        
+        String angespielte_Farbe = Stich.get(0).getFarbe();
         for (Karten karte : Stich) {
             if (karte.farbe.equals(Trumpf)) {
                 Trumpf_Liste.add(karte);
-            } else {
-                Nicht_Trumpf_Liste.add(karte);
+            } 
+            if(karte.farbe.equals(angespielte_Farbe) ) {
+                Angespielte_Liste.add(karte);
             }
         }
         if (Trumpf_Liste.size() > 0) {
@@ -143,8 +158,8 @@ public class Spiel {
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
             System.out.println("Stich Gewinner (Trumpf): " + Gewinner.Name);
         } else {
-            Nicht_Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
-            Karten Stich_Gewinner = Nicht_Trumpf_Liste.get(0);
+            Angespielte_Liste.sort(Comparator.comparing(Karten::getWert));
+            Karten Stich_Gewinner = Angespielte_Liste.get(0);
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
             System.out.println("Stich Gewinner (Nicht-Trumpf): " + Gewinner.Name);
         }

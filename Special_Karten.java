@@ -14,10 +14,7 @@
         //      >für aktuellen Stich gibt es dann keinen Trumpf
         //      >wenn danach Trumpfwechsel gelegt wird gilt dann der neue Trumpf
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*; 
 
 class Karten {
     protected String farbe;
@@ -53,12 +50,13 @@ class Trumpfwechsel extends Karten {
         super("Trumpfwechsel", 0);
     }
 
-    public void ausfuehren(Stack<Karten> nachziehstapel, String aktuellerTrumpf) {
-        Karten gezogeneKarte = nachziehstapel.pop();
-        if (gezogeneKarte instanceof Farbkarte) {
-            aktuellerTrumpf = gezogeneKarte.getFarbe();
+    public void ausfuehren(Spiel spiel, List<Karten> nachziehstapel, String aktuellerTrumpf) {
+        Karten gezogeneKarte = nachziehstapel.get(0);
+        while (!(gezogeneKarte instanceof Farbkarte)) {
+            spiel.Ziehstapel.remove(0);
+            gezogeneKarte = nachziehstapel.get(0);
         }
-        // Trumpffarbe bleibt unverändert, wenn keine Farbkarte gezogen wird
+        spiel.setTrumpf(gezogeneKarte.getFarbe());
     }
 }
 
@@ -67,9 +65,9 @@ class KeinTrumpf extends Karten {
         super("Kein Trumpf", 0);
     }
 
-    public void ausfuehren(String aktuellerTrumpf) {
+    public void ausfuehren(Spiel spiel) {
         // Für den aktuellen Stich gibt es keinen Trumpf
-        aktuellerTrumpf = null;
+        spiel.setTrumpf(null);
     }
 }
 
@@ -78,31 +76,12 @@ class Joker extends Karten {
         super("Joker", 0);
     }
 
-    public void ausfuehren(String angesagteFarbe) {
-        this.farbe = angesagteFarbe;
-        this.wert = Integer.MAX_VALUE; // Setze den Wert auf den höchsten möglichen Wert
+    public void ausfuehren() {
+        this.wert = 20; // Setze den Wert auf den höchsten möglichen Wert
+        // Future me problem
     }
 }
 
 
-public class Special_Karten {
-    public Special_Karten() { //(WHY das muss ein konstructer sein)
-        List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
-        Stack<Karten> nachziehstapel = new Stack<>();
-        String aktuellerTrumpf = Spiel.Trumpf_Karte();
-        String angesagteFarbe = ; // Farbe, die angesagt wird, wenn Joker gespielt wird
-        for (String karteTyp : Karte_Typ_Liste) {
-            if (karteTyp.equals("Trumpfwechsel")) {
-                Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
-                trumpfwechsel.ausfuehren(nachziehstapel, aktuellerTrumpf);
-            } else if (karteTyp.equals("Kein Trumpf")) {
-                KeinTrumpf keinTrumpf = new KeinTrumpf();
-                keinTrumpf.ausfuehren(aktuellerTrumpf);
-            } else if (karteTyp.equals("Joker")) {
-                Joker joker = new Joker();
-                joker.ausfuehren(angesagteFarbe); 
-            }
-        }
-    }
-}
+
      
