@@ -36,6 +36,10 @@ class Karten {
     public int getWert() {
         return wert;
     }
+    public Spieler getBesitzer()
+    { 
+        return spieler;
+    }
 }
 
 class Farbkarte extends Karten {
@@ -80,8 +84,9 @@ class Joker extends Karten {
     }
 }
 
+/*
 public class Special_Karten {
-    public static void main(String[] args) {
+    public static void main(String[] args) { //(WHY das muss ein konstructer sein)
         List<String> Karte_Typ_Liste = new ArrayList<>(Arrays.asList("Plus 5", "Plus 5", "Plus 5", "Minus 5", "Minus 5", "Minus 5", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Trumpfwechsel", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Kein Trumpf", "Joker", "Joker"));
         Stack<Karten> nachziehstapel = new Stack<>();
         String aktuellerTrumpf = Spiel.Trumpf_Karte();
@@ -100,3 +105,4 @@ public class Special_Karten {
         }
     }
 }
+     */
