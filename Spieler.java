@@ -41,6 +41,7 @@ public class Spieler {
                 }
             }
         }
+        scanner.close();
     }
 
     public int get_Wette() {
@@ -48,7 +49,7 @@ public class Spieler {
         return Wette;
     }
 
-    public void Karte_Legen() {
+    public void Karte_Legen(Spiel spiel) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Name + ", wähle eine Karte zum Ablegen: " + Handkarten);
         String gewaehlteKarte = scanner.nextLine();
@@ -61,11 +62,42 @@ public class Spieler {
         }
         if (karteZuLegen != null) {
             Handkarten.remove(karteZuLegen);
+            spiel.Stich.add(karteZuLegen);
+            if !(karteZuLegen instanceof Farbkarte)
+                {
+                    if (karteTyp.equals("Trumpfwechsel")) {
+                        karteZuLegen.ausfuehren(spiel, spiel.nachziehstapel, )
+                        
+                        } else if (karteTyp.equals("KeinTrumpf")) {
+                            karteZuLegen.ausfuehren(spiel);
+                        
+                        } else if (karteTyp.equals("Joker")) {
+                            while(true){
+                            System.out.println("Willst du diese Stich gewinnen? y/n")
+                            String input = scanner.nextline();
+                            if input.equals("y"){
+                                karteZuLegen.ausfuehren(true)
+                                break;
+                            }
+                            else if input.equals("n"){
+                                karteZuLegen.ausfuehren(false)
+                                break;
+                            }
+                            else {"falsche Eingabe"}
+                            }
+                        } else if (kartenTyp.equals("Plus 5"))
+                        {
+                          karteZuLegen.ausfuehren(this);
+                        } else if (kartenTyp.equals("Minus 5")){
+                            karteZuLegen.ausfuehren(this);
+                        } else {System.out.println("Fehler beim Auspielen von Spezial Karten")}
+                }
             ablagestapel.add(karteZuLegen);
             System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
         } else {
             System.out.println("Ungültige Karte! Versuche es erneut.");
         }
+        scanner.close();
         // Nächster Zug (Spiel)
     }
 

@@ -15,9 +15,17 @@ public class Spiel {
     public List<Karten> ablagestapel = new ArrayList<>();
 
     public Spiel() {
+        Spieler_Anzahl_abfragen();
         Staple_erstellen();
         Spieler_erstellen();
         Spielstart(Spieler_Anzahl);
+    }
+    public void Spieler_Anzahl_abfragen(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wie viele Spieler gibt es?")
+        int Spieler_Anzahl_neu = scanner.nextLine()
+        this.Spieler_Anzahl = Spieler_Anzahl_neu;
+        
     }
 
     public void Staple_erstellen() {
@@ -42,7 +50,12 @@ public class Spiel {
             } else if (karteTyp.equals("Joker")) {
             Joker joker = new Joker();
             Karten_Liste.add(joker);
-            }
+            } else if (kartenTyp.equals("Plus 5"))
+            {
+
+            } else if (kartenTyp.equals("Minus 5")){
+
+            } else {System.out.println("Fehler beim erstellen von Spezial Karten")}
         }
         }
     
@@ -79,7 +92,7 @@ public class Spiel {
         Wetten(Ersterspieler);
         for (int i = 0; i < kartenProSpieler; i++) {
             for (Spieler spieler : Spieler_Liste) {
-                spieler.Karte_Legen();
+                spieler.Karte_Legen(this);
             }
         }
         Runde_Auswerten();
@@ -100,6 +113,7 @@ public class Spiel {
         for (int i = 0; i < kartenProSpieler; i++) {
             
             for (Spieler spieler : Spieler_Liste) {
+                Ziehstapel.get(0).setBesitzer(spieler);
                 spieler.Handkarten.add(Ziehstapel.get(0));
                 Ziehstapel.remove(0);
                 
@@ -161,7 +175,7 @@ public class Spiel {
             Angespielte_Liste.sort(Comparator.comparing(Karten::getWert));
             Karten Stich_Gewinner = Angespielte_Liste.get(0);
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
-            System.out.println("Stich Gewinner (Nicht-Trumpf): " + Gewinner.Name);
+            System.out.println("Stich Gewinner : " + Gewinner.Name);
         }
     }
 

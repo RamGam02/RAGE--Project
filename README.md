@@ -16,4 +16,6 @@ GUI
 
 
 
-Input Spieler anzahl
+Input Spieler anzahl (hopefully fixed no test)
+Spwzial karten beim auspeilen (done no test)
+besitzer bei karten hinzufügen (done no test) 
