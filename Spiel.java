@@ -52,10 +52,13 @@ public class Spiel {
             Karten_Liste.add(joker);
             } else if (kartenTyp.equals("Plus 5"))
             {
-
+                Plus5 plus5 = new Plus5;
+                Karten_Liste.add(plus5);
             } else if (kartenTyp.equals("Minus 5")){
+                Minus5 minus5 = new Minus5;
+                Karten_Liste.add(minus5);
 
-            } else {System.out.println("Fehler beim erstellen von Spezial Karten")}
+            } else {System.out.println("Fehler beim erstellen von Spezial Karten");}
         }
         }
     

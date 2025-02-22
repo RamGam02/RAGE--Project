@@ -71,7 +71,7 @@ class KeinTrumpf extends Karten {
     public void ausfuehren(Spiel spiel) {
         // Für den aktuellen Stich gibt es keinen Trumpf
         spiel.setTrumpf(null);
-        System.out.println("Keinen Trumpf mehr")
+        System.out.println("Keinen Trumpf mehr");
     }
 }
 
