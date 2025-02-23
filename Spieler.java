@@ -13,6 +13,7 @@ public class Spieler {
     public boolean Wette_geschafft;
     List<Karten> Handkarten = new ArrayList<>();
     List<Karten> ablagestapel = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
     public Spieler(String pName, int pWette) {
         this.Name = pName;
@@ -22,12 +23,11 @@ public class Spieler {
     }
 
     public void Wetten() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
+        
+        System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
             
             while (true) {
-                try {
-                    
+                try {                   
                     int input = Integer.parseInt(scanner.nextLine());
                     if (input >= 0) {
                         this.Wette = input;
@@ -40,8 +40,7 @@ public class Spieler {
                     System.out.println("Ungültige Eingabe!! Bitte eine Zahl eingeben!");
                 }
             }
-            scanner.close();
-        }
+            
     }
 
     public int get_Wette() {
@@ -50,16 +49,17 @@ public class Spieler {
     }
 
     public void Karte_Legen(Spiel spiel1) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(Name + ", wähle eine Karte zum Ablegen: " + Handkarten);
-        String gewaehlteKarte = scanner.nextLine();
-        Karten karteZuLegen = null;
+        System.out.println("Trumpf: " + spiel1.getTrumpf());
+        System.out.println(Name + ", wähle eine Karte zum Ablegen:");
+        int i =1;
         for (Karten karte : Handkarten) {
-            if (karte.toString().equals(gewaehlteKarte)) {
-                karteZuLegen = karte;
-                break;
-            }
+            System.out.println(i + ": " + karte.getFarbe() + " " + karte.getWert());
+            i++;
         }
+        int gewaehlteKarte =Integer.parseInt(scanner.nextLine());
+        Karten karteZuLegen = null;
+        karteZuLegen = Handkarten.get(gewaehlteKarte-1);
+
         if (karteZuLegen != null) {
             Handkarten.remove(karteZuLegen);
             spiel1.Stich.add(karteZuLegen);
@@ -87,18 +87,14 @@ public class Spieler {
                     karteZuLegen.ausfuehren(this);
                 } else if (kartenTyp.equals("Minus 5")) {
                     karteZuLegen.ausfuehren(this);
-                } else {
-                    System.out.println("Fehler beim Auspielen von Spezial Karten");
-                }
             }
             ablagestapel.add(karteZuLegen);
             System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
         } 
         else {
             System.out.println("Ungültige Karte! Versuche es erneut.");
-        }
-        scanner.close();
-        // Nächster Zug (Spiel)
+        }}
+        
     }
 
     public boolean ist_Wette_geschafft() {

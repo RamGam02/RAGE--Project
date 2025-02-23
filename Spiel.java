@@ -1,12 +1,8 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.*;
 
 public class Spiel {
 
-    private String Trumpf = "lol"; // for later
+    private String Trumpf = null; // for later
     private int Runde = 0; // for later
     private int Spieler_Anzahl = 4; // for later
     private List<Spieler> Spieler_Liste = new ArrayList<>();
@@ -14,19 +10,21 @@ public class Spiel {
     public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
     public List<Karten> ablagestapel = new ArrayList<>();
     public List<Karten> Stich = new ArrayList<>();
-
+    private Scanner scanner = new Scanner(System.in);
+    
     public Spiel() {
+        
         Spieler_Anzahl_abfragen();
         Staple_erstellen();
         Spieler_erstellen();
         Spielstart(Spieler_Anzahl);
+        scanner.close();
     }
     public void Spieler_Anzahl_abfragen(){
-        Scanner scanner = new Scanner(System.in);
+        
         System.out.println("Wie viele Spieler gibt es?");
         int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
-        this.Spieler_Anzahl = Spieler_Anzahl_neu;
-        scanner.close();
+        this.Spieler_Anzahl = Spieler_Anzahl_neu;        
     }
     public String getTrumpf(){
         return Trumpf;
