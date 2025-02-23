@@ -13,6 +13,7 @@ public class Spiel {
     private Scanner scanner = new Scanner(System.in);
     
     public Spiel() {
+
         
         Spieler_Anzahl_abfragen();
         Staple_erstellen();
@@ -20,17 +21,20 @@ public class Spiel {
         Spielstart(Spieler_Anzahl);
         scanner.close();
     }
+    
     public void Spieler_Anzahl_abfragen(){
+
         
         System.out.println("Wie viele Spieler gibt es?");
         int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
         this.Spieler_Anzahl = Spieler_Anzahl_neu;        
     }
+    
     public String getTrumpf(){
+
         return Trumpf;
     }
     
-
     public void Staple_erstellen() {
         List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
         List<Integer> Number_Liste = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
@@ -38,7 +42,7 @@ public class Spiel {
 
         for (String farbe : Farben_Liste) {
             for (int number : Number_Liste) {
-                Karten_Liste.add(new Karten(farbe, number));
+                Karten_Liste.add(new Farbkarte(farbe, number));
                 System.out.println("Erstellte Karte: " + farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
@@ -73,7 +77,6 @@ public class Spiel {
 
     }
 
-
     public void Spielstart(int Spieler_Anzahl) {
         Spieler ersterAusspieler = Spieler_Liste.get((int) (Math.random() * Spieler_Anzahl));
         
@@ -98,6 +101,7 @@ public class Spiel {
         for (int i = 0; i < kartenProSpieler; i++) {
             for (Spieler spieler : Spieler_Liste) {
                 spieler.Karte_Legen(this);
+                Stich_auswerten();
             }
         }
         Runde_Auswerten();
@@ -136,6 +140,7 @@ public class Spiel {
 
     public void Trumpf_Karte() {
         Karten erste_Karte = Ziehstapel.remove(0);
+        Trumpf = erste_Karte.farbe;
         System.out.println("Trumpfkarte gezogen: " + erste_Karte.farbe );
     }
 
@@ -160,6 +165,10 @@ public class Spiel {
         
         while (!(Stich.get(0) instanceof Farbkarte)) {
             Stich.remove(0);
+            if (Stich.isEmpty()) {
+                System.out.println("Keine Farbkarte im Stich.");
+                return;
+            }
         }
         
         String angespielte_Farbe = Stich.get(0).getFarbe();
