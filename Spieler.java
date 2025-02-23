@@ -40,8 +40,8 @@ public class Spieler {
                     System.out.println("Ungültige Eingabe!! Bitte eine Zahl eingeben!");
                 }
             }
+            scanner.close();
         }
-        scanner.close();
     }
 
     public int get_Wette() {
@@ -49,7 +49,7 @@ public class Spieler {
         return Wette;
     }
 
-    public void Karte_Legen(Spiel spiel) {
+    public void Karte_Legen(Spiel spiel1) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Name + ", wähle eine Karte zum Ablegen: " + Handkarten);
         String gewaehlteKarte = scanner.nextLine();
@@ -62,39 +62,39 @@ public class Spieler {
         }
         if (karteZuLegen != null) {
             Handkarten.remove(karteZuLegen);
-            spiel.Stich.add(karteZuLegen);
-            if !(karteZuLegen instanceof Farbkarte)
-                {
-                    if (karteTyp.equals("Trumpfwechsel")) {
-                        karteZuLegen.ausfuehren(spiel, spiel.nachziehstapel, )
-                        
-                        } else if (karteTyp.equals("KeinTrumpf")) {
-                            karteZuLegen.ausfuehren(spiel);
-                        
-                        } else if (karteTyp.equals("Joker")) {
-                            while(true){
-                            System.out.println("Willst du diese Stich gewinnen? y/n")
-                            String input = scanner.nextline();
-                            if input.equals("y"){
-                                karteZuLegen.ausfuehren(true)
-                                break;
-                            }
-                            else if input.equals("n"){
-                                karteZuLegen.ausfuehren(false)
-                                break;
-                            }
-                            else {"falsche Eingabe"}
-                            }
-                        } else if (kartenTyp.equals("Plus 5"))
-                        {
-                          karteZuLegen.ausfuehren(this);
-                        } else if (kartenTyp.equals("Minus 5")){
-                            karteZuLegen.ausfuehren(this);
-                        } else {System.out.println("Fehler beim Auspielen von Spezial Karten")}
+            spiel1.Stich.add(karteZuLegen);
+            if (!(karteZuLegen instanceof Farbkarte)) {
+                String kartenTyp = karteZuLegen.getFarbe(); 
+                if (kartenTyp.equals("Trumpfwechsel")) {
+                    karteZuLegen.ausfuehren(spiel1);
+                } else if (kartenTyp.equals("KeinTrumpf")) {
+                    karteZuLegen.ausfuehren(spiel1);
+                } else if (kartenTyp.equals("Joker")) {
+                    while (true) {
+                        System.out.println("Willst du diesen Stich gewinnen? y/n");
+                        String input = scanner.nextLine();
+                        if (input.equals("y")) {
+                            karteZuLegen.ausfuehren(true,spiel1.getTrumpf(),spiel1.Stich.get(0).getFarbe());
+                            break;
+                        } else if (input.equals("n")) {
+                            karteZuLegen.ausfuehren(false,spiel1.getTrumpf(),spiel1.Stich.get(0).getFarbe());
+                            break;
+                        } else {
+                            System.out.println("Falsche Eingabe");
+                        }
+                    }
+                } else if (kartenTyp.equals("Plus 5")) {
+                    karteZuLegen.ausfuehren(this);
+                } else if (kartenTyp.equals("Minus 5")) {
+                    karteZuLegen.ausfuehren(this);
+                } else {
+                    System.out.println("Fehler beim Auspielen von Spezial Karten");
                 }
+            }
             ablagestapel.add(karteZuLegen);
             System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
-        } else {
+        } 
+        else {
             System.out.println("Ungültige Karte! Versuche es erneut.");
         }
         scanner.close();
@@ -107,7 +107,7 @@ public class Spieler {
         return Wette_geschafft;
     }
 
-    public void set_Punkte() {
+    public void Punkte_berrechen() {
         if (Wette_geschafft) {
             Punkte += Wette * 2; // Beispiel: Punkte verdoppeln, wenn Wette geschafft
         } else {
@@ -120,6 +120,9 @@ public class Spieler {
         System.out.println(Name + " hat aktuell " + Punkte + " Punkte.");
         return Punkte;
     
+    }
+    public void set_Punkte(int punkte){
+        this.Punkte = punkte;
     }
 }
 

@@ -40,6 +40,17 @@ class Karten {
     public void setBesitzer(Spieler neuerspieler){
         this.spieler = neuerspieler;
     }
+    public void ausfuehren(Spiel spiel) {
+        // Leer aber wichtig nicht löschen
+    }
+
+    public void ausfuehren(boolean gewinnen, String Trumpf, String angespeilteKarte) {
+        // Leer aber wichtig nicht löschen
+    }
+
+    public void ausfuehren(Spieler spieler) {
+        // Leer aber wichtig nicht löschen
+    }
 }
 
 class Farbkarte extends Karten {
@@ -53,11 +64,12 @@ class Trumpfwechsel extends Karten {
         super("Trumpfwechsel", 0);
     }
 
-    public void ausfuehren(Spiel spiel, List<Karten> nachziehstapel) {
-        Karten gezogeneKarte = nachziehstapel.get(0);
+    @Override
+    public void ausfuehren(Spiel spiel) {
+        Karten gezogeneKarte = spiel.Ziehstapel.get(0);
         while (!(gezogeneKarte instanceof Farbkarte)) {
             spiel.Ziehstapel.remove(0);
-            gezogeneKarte = nachziehstapel.get(0);
+            gezogeneKarte = spiel.Ziehstapel.get(0);
         }
         spiel.setTrumpf(gezogeneKarte.getFarbe());
     }
@@ -67,7 +79,7 @@ class KeinTrumpf extends Karten {
     public KeinTrumpf() {
         super("Kein Trumpf", 0);
     }
-
+    @Override
     public void ausfuehren(Spiel spiel) {
         // Für den aktuellen Stich gibt es keinen Trumpf
         spiel.setTrumpf(null);
@@ -79,16 +91,16 @@ class Joker extends Karten {
     public Joker() {
         super("Joker", 0);
     }
-
+    @Override
     public void ausfuehren(boolean gewinnen, String Trumpf,String angespeilteKarte) {
         this.wert = 20; 
         if (gewinnen){
             this.wert =20;
             this.farbe=Trumpf;
         }
-        else if !(gewinnen){
+        else if (!gewinnen){
             this.wert= -1;
-            this.color= angespeilteKarte;
+            this.farbe= angespeilteKarte;
 
         }
         // Future me problem 
@@ -97,19 +109,21 @@ class Joker extends Karten {
 
 class Plus5 extends Karten {
     public Plus5 (){
-        super("Plus5", 0)
+        super("Plus5", 0);
     }
-    public void ausfuehren(this){
-        spieler.set_Punkte(spieler.getPunkte+5);
+    @Override
+    public void ausfuehren(Spieler spieler){
+        spieler.set_Punkte(spieler.getPunkte() + 5);
     }
 
 }
-class Plus5 extends Karten {
-    public Plus5 (){
-        super("Plus5", 0)
+class Minus5 extends Karten {
+    public Minus5(){
+        super("Plus5", 0);
     }
+    @Override
     public void ausfuehren(Spieler spieler){
-        spieler.set_Punkte(spieler.getPunkte-5);
+        spieler.set_Punkte(spieler.getPunkte()-5);
     }
 
 }

@@ -2,17 +2,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Spiel {
 
     private String Trumpf = "lol"; // for later
-    private final int Runde = 0; // for later
-    private final int Spieler_Anzahl = 4; // for later
+    private int Runde = 0; // for later
+    private int Spieler_Anzahl = 4; // for later
     private List<Spieler> Spieler_Liste = new ArrayList<>();
     public List<Karten> Karten_Liste = new ArrayList<>();
     public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
     public List<Karten> ablagestapel = new ArrayList<>();
+    public List<Karten> Stich = new ArrayList<>();
 
     public Spiel() {
         Spieler_Anzahl_abfragen();
@@ -22,11 +23,15 @@ public class Spiel {
     }
     public void Spieler_Anzahl_abfragen(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Wie viele Spieler gibt es?")
-        int Spieler_Anzahl_neu = scanner.nextLine()
+        System.out.println("Wie viele Spieler gibt es?");
+        int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
         this.Spieler_Anzahl = Spieler_Anzahl_neu;
-        
+        scanner.close();
     }
+    public String getTrumpf(){
+        return Trumpf;
+    }
+    
 
     public void Staple_erstellen() {
         List<String> Farben_Liste = new ArrayList<>(Arrays.asList("Grün", "Gelb", "Rot", "Orange", "Lila", "Blau"));
@@ -50,12 +55,11 @@ public class Spiel {
             } else if (karteTyp.equals("Joker")) {
             Joker joker = new Joker();
             Karten_Liste.add(joker);
-            } else if (kartenTyp.equals("Plus 5"))
-            {
-                Plus5 plus5 = new Plus5;
+            } else if (karteTyp.equals("Plus 5")){
+                Plus5 plus5 = new Plus5();
                 Karten_Liste.add(plus5);
-            } else if (kartenTyp.equals("Minus 5")){
-                Minus5 minus5 = new Minus5;
+            } else if (karteTyp.equals("Minus 5")){
+                Minus5 minus5 = new Minus5();
                 Karten_Liste.add(minus5);
 
             } else {System.out.println("Fehler beim erstellen von Spezial Karten");}
@@ -151,7 +155,7 @@ public class Spiel {
         System.out.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
     }
 
-    public void Stich_auswerten(List<Karten> Stich) {
+    public void Stich_auswerten() {
         List<Karten> Trumpf_Liste = new ArrayList<>();
         List<Karten> Angespielte_Liste = new ArrayList<>();
 
@@ -180,6 +184,7 @@ public class Spiel {
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
             System.out.println("Stich Gewinner : " + Gewinner.Name);
         }
+        Stich.clear();
     }
 
     public static void main(String[] args) {
