@@ -95,14 +95,14 @@ public class Spiel {
         Mischen(Ziehstapel);
         System.out.println(kartenProSpieler);
         Austeilen(kartenProSpieler, Ziehstapel);
-        System.out.println("lol");
         Trumpf_Karte();
         Wetten(Ersterspieler);
         for (int i = 0; i < kartenProSpieler; i++) {
             for (Spieler spieler : Spieler_Liste) {
                 spieler.Karte_Legen(this);
-                Stich_auswerten();
+                
             }
+            Stich_auswerten();
         }
         Runde_Auswerten();
     }
