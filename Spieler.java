@@ -23,7 +23,12 @@ public class Spieler {
     }
 
     public void Wetten() {
-        
+        int i=1;
+        for (Karten karte : Handkarten) {
+            System.out.println(i + ": " + karte.getFarbe() + " " + karte.getWert());
+            i++;
+        }
+
         System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
             
             while (true) {
@@ -90,10 +95,11 @@ public class Spieler {
             }
             ablagestapel.add(karteZuLegen);
             System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
-        } 
+        }
+    } 
         else {
             System.out.println("Ungültige Karte! Versuche es erneut.");
-        }}
+        }
         
     }
 
