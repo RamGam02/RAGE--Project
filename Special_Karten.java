@@ -14,8 +14,6 @@
         //      >für aktuellen Stich gibt es dann keinen Trumpf
         //      >wenn danach Trumpfwechsel gelegt wird gilt dann der neue Trumpf
 
-import java.util.*; 
-
 class Karten {
     protected String farbe;
     protected int wert;
@@ -52,13 +50,11 @@ class Karten {
         // Leer aber wichtig nicht löschen
     }
 }
-
 class Farbkarte extends Karten {
     public Farbkarte(String farbe, int wert) {
         super(farbe, wert);
     }
 }
-
 class Trumpfwechsel extends Karten {
     public Trumpfwechsel() {
         super("Trumpfwechsel", 0);
@@ -74,7 +70,6 @@ class Trumpfwechsel extends Karten {
         spiel.setTrumpf(gezogeneKarte.getFarbe());
     }
 }
-
 class KeinTrumpf extends Karten {
     public KeinTrumpf() {
         super("Kein Trumpf", 0);
@@ -86,7 +81,6 @@ class KeinTrumpf extends Karten {
         System.out.println("Keinen Trumpf mehr");
     }
 }
-
 class Joker extends Karten {
     public Joker() {
         super("Joker", 0);
@@ -106,7 +100,6 @@ class Joker extends Karten {
         // Future me problem 
     }
 }
-
 class Plus5 extends Karten {
     public Plus5 (){
         super("Plus5", 0);

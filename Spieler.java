@@ -93,9 +93,10 @@ public class Spieler {
                 } else if (kartenTyp.equals("Minus 5")) {
                     karteZuLegen.ausfuehren(this);
             }
-            ablagestapel.add(karteZuLegen);
-            System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
         }
+        ablagestapel.add(karteZuLegen);
+        System.out.println(Name + " hat die Karte " + gewaehlteKarte + " gespielt!");
+        
     } 
         else {
             System.out.println("Ungültige Karte! Versuche es erneut.");
