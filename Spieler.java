@@ -68,8 +68,22 @@ public class Spieler {
         if (karteZuLegen != null) {
             Handkarten.remove(karteZuLegen);
             spiel1.Stich.add(karteZuLegen);
-            if (!(karteZuLegen instanceof Farbkarte)) {
-                String kartenTyp = karteZuLegen.getFarbe(); 
+            String kartenTyp = karteZuLegen.getFarbe();
+            boolean farbzwangErfuellt = false;
+            for (Karten karte : Handkarten) {
+                if (karte.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+                    farbzwangErfuellt = true;
+                    break;
+                }
+            }
+            if (farbzwangErfuellt && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+                System.out.println("Farbzwang! Du musst eine Karte der gleichen Farbe spielen.");
+                Handkarten.add(karteZuLegen); // Karte zurück auf die Hand legen
+                return; // Methode verlassen, um eine neue Karte zu wählen
+            } else if (!farbzwangErfuellt) {
+                System.out.println("Du hast keine Karte der gleichen Farbe.");
+            }
+            if (!(karteZuLegen instanceof Farbkarte)) {  
                 if (kartenTyp.equals("Trumpfwechsel")) {
                     karteZuLegen.ausfuehren(spiel1);
                 } else if (kartenTyp.equals("KeinTrumpf")) {
