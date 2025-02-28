@@ -76,7 +76,7 @@ public class Spieler {
                     break;
                 }
             }
-            if (farbzwangErfuellt && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+            if (farbzwangErfuellt = false && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
                 System.out.println("Farbzwang! Du musst eine Karte der gleichen Farbe spielen.");
                 Handkarten.add(karteZuLegen); // Karte zurück auf die Hand legen
                 return; // Methode verlassen, um eine neue Karte zu wählen

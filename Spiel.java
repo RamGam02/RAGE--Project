@@ -100,8 +100,11 @@ public class Spiel {
         for (int i = 0; i < kartenProSpieler; i++) {
             for (Spieler spieler : Spieler_Liste) {
                 spieler.Karte_Legen(this);
-                Stich_auswerten();
+                //if (){
+// hier muss noch der Fall des Farbzwang hinzugefügt werden, damit der eben gespielte Spieler, der den Farbzwang nicht eingehalten hat, nochmal eine Karte legen darf
+  //              }
             }
+            Stich_auswerten();
         }
         Runde_Auswerten();
     }
@@ -165,7 +168,10 @@ public class Spiel {
         while (!(Stich.get(0) instanceof Farbkarte)) {
             Stich.remove(0);
             if (Stich.isEmpty()) {
-                System.out.println("Keine Farbkarte im Stich.");
+                Spieler ersterSpieler = Stich.get(0).getBesitzer();
+                Spieler Gewinner = ersterSpieler;
+                System.out.println("Keine Farbkarte im Stich. Erster Spieler bekommt den Stich: " + Gewinner.Name);
+                Stich.clear();
                 return;
             }
         }
@@ -175,7 +181,7 @@ public class Spiel {
             if (karte.farbe.equals(Trumpf)) {
                 Trumpf_Liste.add(karte);
             } 
-            if(karte.farbe.equals(angespielte_Farbe) ) {
+            else if(karte.farbe.equals(angespielte_Farbe) ) {
                 Angespielte_Liste.add(karte);
             }
         }
@@ -184,8 +190,9 @@ public class Spiel {
             Karten Stich_Gewinner = Trumpf_Liste.get(0);
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
             System.out.println("Stich Gewinner (Trumpf): " + Gewinner.Name);
-        } else {
+        } else {                                                                    // hier wird irgendwo nicht nach dem Wert Sortiert, niedrigerer Wert gewinnt --> falsch
             Angespielte_Liste.sort(Comparator.comparing(Karten::getWert));
+           // System.out.println(Angespielte_Liste.get(0).getWert());           Wir haben da was mit Frau Reichgardt probiert
             Karten Stich_Gewinner = Angespielte_Liste.get(0);
             Spieler Gewinner = Stich_Gewinner.getBesitzer();
             System.out.println("Stich Gewinner : " + Gewinner.Name);
