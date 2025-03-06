@@ -1,4 +1,4 @@
-        //Aktionskarten
+//Aktionskarten
         //  >Joker
         //      >Spieler sagt beliebige Farbe an, Karte wird zur höchsten Karte dieser Farbe
         //      >Joker kann auch Trumpf werden
@@ -62,12 +62,12 @@ class Trumpfwechsel extends Karten {
 
     @Override
     public void ausfuehren(Spiel spiel) {
-        Karten gezogeneKarte = spiel.Ziehstapel.get(0);
+        Karten gezogeneKarte = spiel.Ziehstapel.remove(0);
         while (!(gezogeneKarte instanceof Farbkarte)) {
-            spiel.Ziehstapel.remove(0);
-            gezogeneKarte = spiel.Ziehstapel.get(0);
+            gezogeneKarte = spiel.Ziehstapel.remove(0);
         }
         spiel.setTrumpf(gezogeneKarte.getFarbe());
+        System.out.println("Neuer Trumpf ist: " + gezogeneKarte.getFarbe());
     }
 }
 class KeinTrumpf extends Karten {
@@ -122,4 +122,3 @@ class Minus5 extends Karten {
 }
 
 
-     

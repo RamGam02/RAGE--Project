@@ -27,6 +27,10 @@ public class Spiel {
         
         System.out.println("Wie viele Spieler gibt es?");
         int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
+        if (Spieler_Anzahl_neu < 2 || Spieler_Anzahl_neu > 10) {
+            System.out.println("Ungültige Spieleranzahl! Bitte eine Zahl zwischen 2 und 10 eingeben.");
+            Spieler_Anzahl_abfragen();
+        }
         this.Spieler_Anzahl = Spieler_Anzahl_neu;        
     }
     
@@ -62,7 +66,6 @@ public class Spiel {
                 Karten_Liste.add(plus5);
             } else if (karteTyp.equals("Minus 5")){
                 Minus5 minus5 = new Minus5();
-                Karten_Liste.add(minus5);
 
             } else {System.out.println("Fehler beim erstellen von Spezial Karten");}
         }
@@ -97,14 +100,30 @@ public class Spiel {
         Austeilen(kartenProSpieler, Ziehstapel);
         Trumpf_Karte();
         Wetten(Ersterspieler);
+        Spieler aktuellerAusspieler = Ersterspieler;
         for (int i = 0; i < kartenProSpieler; i++) {
-            for (Spieler spieler : Spieler_Liste) {
-                spieler.Karte_Legen(this);
-                //if (){
-// hier muss noch der Fall des Farbzwang hinzugefügt werden, damit der eben gespielte Spieler, der den Farbzwang nicht eingehalten hat, nochmal eine Karte legen darf
-  //              }
+            String angespielteFarbe = null;
+            for (int j = 0; j < Spieler_Liste.size(); j++) {
+                Spieler spieler = Spieler_Liste.get((Spieler_Liste.indexOf(aktuellerAusspieler) + j) % Spieler_Liste.size());
+                while (true) {
+                    int initialStichSize = Stich.size();
+                    spieler.Karte_Legen(this);
+                    Karten gespielteKarte = Stich.get(Stich.size() - 1);
+                    if (angespielteFarbe == null) {
+                        angespielteFarbe = gespielteKarte.getFarbe();
+                    }
+                    if (initialStichSize < Stich.size()) {
+                        break;
+                    }
+                }
+                // Nach dem Legen des Spielers leere Zeilen einfügen
+                System.out.println("Drücke Enter, um fortzufahren...");
+                scanner.nextLine(); // Warten auf Enter-Taste
+                for (int k = 0; k < 50; k++) { // 50 leere Zeilen einfügen
+                    System.out.println();
+                }
             }
-            Stich_auswerten();
+            aktuellerAusspieler = Stich_auswerten();
         }
         Runde_Auswerten();
     }
@@ -112,6 +131,7 @@ public class Spiel {
     public void setTrumpf(String neuerTrumpf){
 
         Trumpf = neuerTrumpf;
+        System.out.println("Trumpf gesetzt auf: " + neuerTrumpf);
 
     }
 
@@ -134,8 +154,16 @@ public class Spiel {
     }
 
     public void Wetten(Spieler StartSpieler) {
-        for (Spieler spieler : Spieler_Liste) {
+        int startIndex = Spieler_Liste.indexOf(StartSpieler);
+        for (int i = 0; i < Spieler_Liste.size(); i++) {
+            Spieler spieler = Spieler_Liste.get((startIndex + i) % Spieler_Liste.size());
             spieler.Wetten();
+            // Nach dem Wetten des Spielers leere Zeilen einfügen
+            System.out.println("Drücke Enter, um fortzufahren...");
+            scanner.nextLine(); // Warten auf Enter-Taste
+            for (int j = 0; j < 50; j++) { // 50 leere Zeilen einfügen
+                System.out.println();
+            }
         }
         System.out.println("Wetten abgeschlossen");
     }
@@ -160,44 +188,63 @@ public class Spiel {
         System.out.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
     }
 
-    public void Stich_auswerten() {
+    public Spieler Stich_auswerten() {
         List<Karten> Trumpf_Liste = new ArrayList<>();
         List<Karten> Angespielte_Liste = new ArrayList<>();
+        List<Karten> Joker_Liste = new ArrayList<>();
 
-        
-        while (!(Stich.get(0) instanceof Farbkarte)) {
-            Stich.remove(0);
-            if (Stich.isEmpty()) {
-                Spieler ersterSpieler = Stich.get(0).getBesitzer();
-                Spieler Gewinner = ersterSpieler;
-                System.out.println("Keine Farbkarte im Stich. Erster Spieler bekommt den Stich: " + Gewinner.Name);
-                Stich.clear();
-                return;
-            }
-        }
-        
-        String angespielte_Farbe = Stich.get(0).getFarbe();
+        String angespielte_Farbe = null;
+
         for (Karten karte : Stich) {
-            if (karte.farbe.equals(Trumpf)) {
+            if (karte instanceof Joker) {
+                Joker_Liste.add(karte);
+            } else if (karte.farbe.equals(Trumpf)) {
                 Trumpf_Liste.add(karte);
-            } 
-            else if(karte.farbe.equals(angespielte_Farbe) ) {
+            } else if (angespielte_Farbe == null && karte instanceof Farbkarte) {
+                angespielte_Farbe = karte.getFarbe();
+                Angespielte_Liste.add(karte);
+            } else if (karte.farbe.equals(angespielte_Farbe)) {
                 Angespielte_Liste.add(karte);
             }
         }
-        if (Trumpf_Liste.size() > 0) {
-            Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
-            Karten Stich_Gewinner = Trumpf_Liste.get(0);
-            Spieler Gewinner = Stich_Gewinner.getBesitzer();
-            System.out.println("Stich Gewinner (Trumpf): " + Gewinner.Name);
-        } else {                                                                    // hier wird irgendwo nicht nach dem Wert Sortiert, niedrigerer Wert gewinnt --> falsch
-            Angespielte_Liste.sort(Comparator.comparing(Karten::getWert));
-           // System.out.println(Angespielte_Liste.get(0).getWert());           Wir haben da was mit Frau Reichgardt probiert
-            Karten Stich_Gewinner = Angespielte_Liste.get(0);
-            Spieler Gewinner = Stich_Gewinner.getBesitzer();
-            System.out.println("Stich Gewinner : " + Gewinner.Name);
+
+        // Wenn keine Farbkarte im Stich ist, setze die angespielte Farbe auf die erste Farbkarte
+        if (angespielte_Farbe == null && !Angespielte_Liste.isEmpty()) {
+            angespielte_Farbe = Angespielte_Liste.get(0).getFarbe();
         }
+
+        Karten Stich_Gewinner;
+        if (!Joker_Liste.isEmpty()) {
+            if (Joker_Liste.size() == 1) {
+                Stich_Gewinner = Joker_Liste.get(0);
+            } else {
+                for (Karten joker : Joker_Liste) {
+                    Spieler besitzer = joker.getBesitzer();
+                    System.out.println(besitzer.Name + ", möchtest du den Stich gewinnen? (y/n)");
+                    String input = scanner.nextLine();
+                    if (input.equalsIgnoreCase("y")) {
+                        Stich_Gewinner = joker;
+                        Spieler Gewinner = Stich_Gewinner.getBesitzer();
+                        System.out.println("Stich Gewinner: " + Gewinner.Name);
+                        Stich.clear();
+                        return Gewinner;
+                    }
+                }
+                // Wenn keiner den Stich gewinnen möchte, gewinnt der erste Joker
+                Stich_Gewinner = Joker_Liste.get(0);
+            }
+        } else if (!Trumpf_Liste.isEmpty()) {
+            Trumpf_Liste.sort(Comparator.comparing(Karten::getWert).reversed());
+            Stich_Gewinner = Trumpf_Liste.get(0);
+        } else {
+            Angespielte_Liste.sort(Comparator.comparing(Karten::getWert).reversed());
+            Stich_Gewinner = Angespielte_Liste.get(0);
+        }
+
+        Spieler Gewinner = Stich_Gewinner.getBesitzer();
+        System.out.println("Stich Gewinner: " + Gewinner.Name);
         Stich.clear();
+        return Gewinner;
     }
 
     public static void main(String[] args) {
