@@ -13,31 +13,43 @@ public class Spiel {
     private Scanner scanner = new Scanner(System.in);
     
     public Spiel() {
-
-        
         Spieler_Anzahl_abfragen();
         Staple_erstellen();
         Spieler_erstellen();
         Spielstart(Spieler_Anzahl);
         scanner.close();
     }
+    public boolean GibtesdenNamen(String input){
+        for (Spieler spieler : Spieler_Liste) {
+            if (input.equals(spieler.getName()))  { 
+                return true;  
+            }
+        }
+        return false;
+    }
     
     public void Spieler_Anzahl_abfragen(){
-
-        
-        System.out.println("Wie viele Spieler gibt es?");
-        while (true) {
-            
-            int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
-            if (Spieler_Anzahl_neu >= 2 && Spieler_Anzahl_neu <= 10) {
-                this.Spieler_Anzahl = Spieler_Anzahl_neu;
-                break;
-            } else {
-                System.out.println("Ungültige Spieleranzahl! Bitte eine Zahl zwischen 2 und 10 eingeben.");
-            }  
+        String input =null;
+        while (true){
+        System.out.println("Names des neuen Spielers:");
+        while (true) { 
+            boolean nameExists = GibtesdenNamen(scanner.nextLine());
+            if (nameExists) {
+                System.out.println("Der Name ist bereits vergeben. Bitte wähle einen anderen Namen.");
+            }else {
+            Spieler spieler = new Spieler(input, 0);
+            Spieler_Liste.add(spieler);
+            break;
+            }
+        } 
+        System.out.println("Willst du einen neuen Spieler?y/n");
+        input = scanner.nextLine();
+        if (input.equals("y")){}
+        else if (input.equals("n")){
+            break;
+        }
     }
-}
-    
+}    
     public String getTrumpf(){
 
         return Trumpf;
@@ -185,6 +197,10 @@ public class Spiel {
             if (spieler.ist_Wette_geschafft()) {
                 spieler.Punkte += 10;
                 System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und erhält 10 Punkte");
+            }
+            else {
+                spieler.Punkte -=5;
+                System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und verliert 5 Punkte");
             }
         }
     }

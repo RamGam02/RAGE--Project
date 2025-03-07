@@ -22,6 +22,9 @@ public class Spieler {
         this.Wette = pWette;
         System.out.println("Spieler " + pName + " wurde erstellt.");
     }
+    public String getName(){
+        return Name;
+    }
 
     public void Wetten() {
         int i=1;
@@ -64,13 +67,23 @@ public class Spieler {
         Karten karteZuLegen = null;
         while (karteZuLegen == null) {
             
+            while (true){
+                try {
+                    
+
             int gewaehlteKarte = Integer.parseInt(scanner.nextLine());
             if (gewaehlteKarte > 0 && gewaehlteKarte <= Handkarten.size()) {
                 karteZuLegen = Handkarten.get(gewaehlteKarte - 1);
+                break;
             } else {
                 System.out.println("Ungültige Auswahl! Bitte wähle eine gültige Karte.");
             }
-            } 
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe! Bitte eine Zahl eingeben.");
+        } 
+    }
+        }
         
 
         if (karteZuLegen != null) {
@@ -137,9 +150,9 @@ public class Spieler {
 
     public void Punkte_berrechen() {
         if (Wette_geschafft) {
-            Punkte += Wette * 2; // Beispiel: Punkte verdoppeln, wenn Wette geschafft
+            Punkte += 10; // Beispiel: Punkte verdoppeln, wenn Wette geschafft
         } else {
-            Punkte -= Wette; // Beispiel: Punkte abziehen, wenn Wette nicht geschafft
+            Punkte -= 5; // Beispiel: Punkte abziehen, wenn Wette nicht geschafft
         }
         System.out.println("Punkte für " + Name + " wurden gesetzt: " + Punkte);
     }
