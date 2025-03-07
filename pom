@@ -1,5 +1,19 @@
-<dependency>
-    <groupId>com.github.almasb</groupId>
-    <artifactId>fxgl</artifactId>
-    <version>11.17</version>
-</dependency>
+Beim Anzeigen der Stiche Wetten Handkarten plus TRUMPF ANZEIGEN 
+
+Spezial karten Joker runter vor Trumpfwechsel (FIXED)
+
+Anzeigen welche KArten gespielt wurden 
+
+Input Prove überall (While Schleife)
+
+Trumpfkarte kann nicht spezial karte sein 
+
+Anzeigen von spezial karten beim erstellen
+
+Nach Special Karte ist die angespielte Karte Trumpf
+
+Bei jede Runde einmal score anzeigen
+
+Nummer nach Spezialkarten weg
+
+

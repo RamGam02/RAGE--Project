@@ -26,13 +26,17 @@ public class Spiel {
 
         
         System.out.println("Wie viele Spieler gibt es?");
-        int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
-        if (Spieler_Anzahl_neu < 2 || Spieler_Anzahl_neu > 10) {
-            System.out.println("Ungültige Spieleranzahl! Bitte eine Zahl zwischen 2 und 10 eingeben.");
-            Spieler_Anzahl_abfragen();
-        }
-        this.Spieler_Anzahl = Spieler_Anzahl_neu;        
+        while (true) {
+            
+            int Spieler_Anzahl_neu = Integer.parseInt(scanner.nextLine());
+            if (Spieler_Anzahl_neu >= 2 && Spieler_Anzahl_neu <= 10) {
+                this.Spieler_Anzahl = Spieler_Anzahl_neu;
+                break;
+            } else {
+                System.out.println("Ungültige Spieleranzahl! Bitte eine Zahl zwischen 2 und 10 eingeben.");
+            }  
     }
+}
     
     public String getTrumpf(){
 
@@ -55,7 +59,7 @@ public class Spiel {
             if (karteTyp.equals("Trumpfwechsel")) {
             Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
             Karten_Liste.add(trumpfwechsel);
-            } else if (karteTyp.equals("KeinTrumpf")) {
+            } else if (karteTyp.equals("Kein Trumpf")) {
             KeinTrumpf keinTrumpf = new KeinTrumpf();
             Karten_Liste.add(keinTrumpf);
             } else if (karteTyp.equals("Joker")) {
@@ -114,6 +118,8 @@ public class Spiel {
                     }
                     if (initialStichSize < Stich.size()) {
                         break;
+                    } else {
+                        System.out.println("Ungültiger Zug! Bitte erneut versuchen.");
                     }
                 }
                 // Nach dem Legen des Spielers leere Zeilen einfügen
@@ -205,7 +211,7 @@ public class Spiel {
                 Angespielte_Liste.add(karte);
             } else if (karte.farbe.equals(angespielte_Farbe)) {
                 Angespielte_Liste.add(karte);
-            }
+            } 
         }
 
         // Wenn keine Farbkarte im Stich ist, setze die angespielte Farbe auf die erste Farbkarte
@@ -221,13 +227,19 @@ public class Spiel {
                 for (Karten joker : Joker_Liste) {
                     Spieler besitzer = joker.getBesitzer();
                     System.out.println(besitzer.Name + ", möchtest du den Stich gewinnen? (y/n)");
-                    String input = scanner.nextLine();
-                    if (input.equalsIgnoreCase("y")) {
-                        Stich_Gewinner = joker;
-                        Spieler Gewinner = Stich_Gewinner.getBesitzer();
-                        System.out.println("Stich Gewinner: " + Gewinner.Name);
-                        Stich.clear();
-                        return Gewinner;
+                    while (true) {
+                        String input = scanner.nextLine();
+                        if (input.equalsIgnoreCase("y")) {
+                            Stich_Gewinner = joker;
+                            Spieler Gewinner = Stich_Gewinner.getBesitzer();
+                            System.out.println("Stich Gewinner: " + Gewinner.Name);
+                            Stich.clear();
+                            return Gewinner;
+                        } else if (input.equalsIgnoreCase("n")) {
+                            break;
+                        } else {
+                            System.out.println("Ungültige Eingabe! Bitte 'y' oder 'n' eingeben.");
+                        }
                     }
                 }
                 // Wenn keiner den Stich gewinnen möchte, gewinnt der erste Joker
@@ -249,5 +261,8 @@ public class Spiel {
 
     public static void main(String[] args) {
         new Spiel();
-    }
 }
+}
+
+
+
