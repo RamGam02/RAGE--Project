@@ -1,4 +1,4 @@
-Beim Anzeigen der Stiche Wetten Handkarten plus TRUMPF ANZEIGEN 
+Beim Anzeigen der Stiche Wetten Handkarten plus TRUMPF ANZEIGEN (Fixed)
 
 Spezial karten Joker runter vor Trumpfwechsel (FIXED)
 
@@ -6,18 +6,20 @@ Anzeigen welche KArten gespielt wurden
 
 Input Prove überall (While Schleife)
 
-Trumpfkarte kann nicht spezial karte sein 
+Trumpfkarte kann nicht spezial karte sein (Fixed?) ["Der Trumpf ist: Kein Trumpf"]
 
-Anzeigen von spezial karten beim erstellen
+Anzeigen von spezial karten beim erstellen (Fixed)
 
 Nach Special Karte ist die angespielte Karte Trumpf
 
-Bei jede Runde einmal score anzeigen
+Bei jede Runde einmal score anzeigen (Fixed?)
 
 Nummer nach Spezialkarten weg
 
 Wette Geschaft funktionier nicht
 
 Decluttering
+
+Max stiche wetten 
 
 

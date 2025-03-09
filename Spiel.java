@@ -3,8 +3,6 @@ import java.util.*;
 public class Spiel {
 
     private String Trumpf = null; // for later
-    private int Runde = 0; // for later
-    private int Spieler_Anzahl = 4; // for later
     private List<Spieler> Spieler_Liste = new ArrayList<>();
     public List<Karten> Karten_Liste = new ArrayList<>();
     public List<Karten> Ziehstapel = new ArrayList<>(Karten_Liste);
@@ -13,27 +11,27 @@ public class Spiel {
     private Scanner scanner = new Scanner(System.in);
     
     public Spiel() {
-        Spieler_Anzahl_abfragen();
-        Staple_erstellen();
         Spieler_erstellen();
-        Spielstart(Spieler_Anzahl);
+        Staple_erstellen();
+        Spielstart();
         scanner.close();
     }
     public boolean GibtesdenNamen(String input){
         for (Spieler spieler : Spieler_Liste) {
-            if (input.equals(spieler.getName()))  { 
+            if (input.equals(spieler.Name))  { 
                 return true;  
             }
         }
         return false;
     }
     
-    public void Spieler_Anzahl_abfragen(){
+    public void Spieler_erstellen(){
         String input =null;
         while (true){
         System.out.println("Names des neuen Spielers:");
         while (true) { 
-            boolean nameExists = GibtesdenNamen(scanner.nextLine());
+            input = scanner.nextLine();
+            boolean nameExists = GibtesdenNamen(input);
             if (nameExists) {
                 System.out.println("Der Name ist bereits vergeben. Bitte wähle einen anderen Namen.");
             }else {
@@ -44,14 +42,20 @@ public class Spiel {
         } 
         System.out.println("Willst du einen neuen Spieler?y/n");
         input = scanner.nextLine();
-        if (input.equals("y")){}
+        if (input.equals("y") || Spieler_Liste.size() < 2) {}
+            if (Spieler_Liste.size() <2) {
+                System.out.println("Es müssen mindestens 2 Spieler erstellt werden");
+            }
         else if (input.equals("n")){
             break;
         }
+        else {
+            System.out.println("Ungültige Eingabe! Bitte 'y' oder 'n' eingeben.");
+        }
     }
 }    
-    public String getTrumpf(){
 
+    public String getTrumpf(){
         return Trumpf;
     }
     
@@ -66,7 +70,6 @@ public class Spiel {
                 System.out.println("Erstellte Karte: " + farbe + " " + number); // Ausgabe der erstellten Karte
             }
         }
-
         for (String karteTyp : Karte_Typ_Liste) {
             if (karteTyp.equals("Trumpfwechsel")) {
             Trumpfwechsel trumpfwechsel = new Trumpfwechsel();
@@ -82,28 +85,21 @@ public class Spiel {
                 Karten_Liste.add(plus5);
             } else if (karteTyp.equals("Minus 5")){
                 Minus5 minus5 = new Minus5();
-
             } else {System.out.println("Fehler beim erstellen von Spezial Karten");}
+            System.out.println("Erstellte Karte: " + karteTyp );
         }
+            
         }
     
-    public void Spieler_erstellen() {
-
-        for (int i = 0; i < Spieler_Anzahl; i++) {
-            Spieler spieler = new Spieler("Spieler " + (i + 1), 0);
-            Spieler_Liste.add(spieler);
-        }
-
-    }
-
-    public void Spielstart(int Spieler_Anzahl) {
-        Spieler ersterAusspieler = Spieler_Liste.get((int) (Math.random() * Spieler_Anzahl));
-        
+    public void Spielstart() {
+        Random random = new Random();
+        Spieler ersterAusspieler = Spieler_Liste.get(random.nextInt(Spieler_Liste.size()));       
         System.out.println("Erster Ausspieler ist " + ersterAusspieler.Name);
         for (int runde = 10; runde > 0; runde--) {
             int kartenProSpieler = runde;
             System.out.println("Runde " + (11 - runde) + " beginnt mit " + kartenProSpieler + " Karten pro Spieler");
             Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
+            display_score();
         }
         Spiel_auswerten();
     }
@@ -134,12 +130,7 @@ public class Spiel {
                         System.out.println("Ungültiger Zug! Bitte erneut versuchen.");
                     }
                 }
-                // Nach dem Legen des Spielers leere Zeilen einfügen
-                System.out.println("Drücke Enter, um fortzufahren...");
-                scanner.nextLine(); // Warten auf Enter-Taste
-                for (int k = 0; k < 50; k++) { // 50 leere Zeilen einfügen
-                    System.out.println();
-                }
+                ClearScreen();
             }
             aktuellerAusspieler = Stich_auswerten();
         }
@@ -159,13 +150,11 @@ public class Spiel {
     }
 
     public void Austeilen(int kartenProSpieler, List<Karten> Ziehstapel) {
-        for (int i = 0; i < kartenProSpieler; i++) {
-            
+        for (int i = 0; i < kartenProSpieler; i++) {      
             for (Spieler spieler : Spieler_Liste) {
                 Ziehstapel.get(0).setBesitzer(spieler);
                 spieler.Handkarten.add(Ziehstapel.get(0));
-                Ziehstapel.remove(0);
-                
+                Ziehstapel.remove(0);                
             }
         }
         System.out.println("Karten ausgeteilt");
@@ -175,21 +164,26 @@ public class Spiel {
         int startIndex = Spieler_Liste.indexOf(StartSpieler);
         for (int i = 0; i < Spieler_Liste.size(); i++) {
             Spieler spieler = Spieler_Liste.get((startIndex + i) % Spieler_Liste.size());
+            ZeigeTrumpf();
             spieler.Wetten();
-            // Nach dem Wetten des Spielers leere Zeilen einfügen
-            System.out.println("Drücke Enter, um fortzufahren...");
-            scanner.nextLine(); // Warten auf Enter-Taste
-            for (int j = 0; j < 50; j++) { // 50 leere Zeilen einfügen
-                System.out.println();
-            }
+            ClearScreen();
         }
         System.out.println("Wetten abgeschlossen");
     }
 
     public void Trumpf_Karte() {
-        Karten erste_Karte = Ziehstapel.remove(0);
-        Trumpf = erste_Karte.farbe;
-        System.out.println("Trumpfkarte gezogen: " + erste_Karte.farbe );
+        while(true){
+            Karten erste_Karte = Ziehstapel.remove(0);
+            if(erste_Karte instanceof Farbkarte){ 
+                Trumpf = erste_Karte.farbe;
+                break;
+            }
+        
+        }
+    }
+
+    public void ZeigeTrumpf(){
+        System.out.println("Der Trumpf ist: " + Trumpf);
     }
 
     public void Runde_Auswerten() {
@@ -273,6 +267,19 @@ public class Spiel {
         System.out.println("Stich Gewinner: " + Gewinner.Name);
         Stich.clear();
         return Gewinner;
+    }
+
+    public void ClearScreen() {
+        System.out.println("Drücke Enter, um fortzufahren...");
+            scanner.nextLine(); // Warten auf Enter-Taste
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+    }
+    public void display_score(){
+        for (Spieler spieler : Spieler_Liste) {
+            System.out.println(spieler.Name + " hat " + spieler.Punkte + " Punkte");
+        }
     }
 
     public static void main(String[] args) {
