@@ -28,13 +28,11 @@ public class Spieler {
             System.out.println(i + ": " + karte.getFarbe() + " " + karte.getWert());
             i++;
         }
-
-        System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");
-            
+        System.out.println(Name + ", wie viele Stiche möchtest du bekommen?");         
             while (true) {
                 try {                   
                     int input = Integer.parseInt(scanner.nextLine());
-                    if (input >= 0) {
+                    if (input >= 0 && input <= Handkarten.size()) {
                         this.Wette = input;
                         System.out.println(Name + " hat " + Wette + " Stiche gewettet.");
                         break;
@@ -56,28 +54,46 @@ public class Spieler {
     public void Karte_Legen(Spiel spiel1) {
         boolean farbzwangErfuellt = false;
         System.out.println("Trumpf: " + spiel1.getTrumpf());
+        System.out.println("Aktueller Stich:");
+        if (spiel1.Stich.isEmpty()) {
+            System.out.println("Keine Karten im Stich.");
+        }else{
+            for (Karten karte : spiel1.Stich) {
+                System.out.println(karte.getFarbe() + " " + karte.getWert());
+            }
+        }
         System.out.println(Name + ", wähle eine Karte zum Ablegen:");
         int i =1;
+        if (!spiel1.Stich.isEmpty()) {
         for (Karten karte : Handkarten) {
-            if (karte.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+            if (karte.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !farbzwangErfuellt ) {
                 farbzwangErfuellt = true;
                 break;
             }
         }
+    }
         for (Karten karte : Handkarten) {
             System.out.println(i + ": " + karte.getFarbe() + " " + karte.getWert());
             i++;
         }
-        int gewaehlteKarte =Integer.parseInt(scanner.nextLine());
+    
+        int gewaehlteKarte;
+        while (true) {
+            try {
+            gewaehlteKarte = Integer.parseInt(scanner.nextLine());
+            break;
+            } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe! Bitte eine Zahl eingeben.");
+            }
+        }
         Karten karteZuLegen = null;
         karteZuLegen = Handkarten.get(gewaehlteKarte-1);
-
         while (true){
             if (gewaehlteKarte < 1 || gewaehlteKarte > Handkarten.size()) {
                 System.out.println("Ungültige Karte! Versuche es erneut.");
                 gewaehlteKarte = Integer.parseInt(scanner.nextLine());
                 karteZuLegen = Handkarten.get(gewaehlteKarte-1);
-            } else if (karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+            } else if (karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !spiel1.Stich.isEmpty() ) {
                 break;
             } else if (!farbzwangErfuellt) {
                 break;

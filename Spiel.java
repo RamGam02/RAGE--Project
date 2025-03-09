@@ -276,6 +276,7 @@ public class Spiel {
             System.out.println();
         }
     }
+    
     public void display_score(){
         for (Spieler spieler : Spieler_Liste) {
             System.out.println(spieler.Name + " hat " + spieler.Punkte + " Punkte");
