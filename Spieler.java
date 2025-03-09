@@ -110,7 +110,7 @@ public class Spieler {
             spiel1.Stich.add(karteZuLegen);
             String kartenTyp = karteZuLegen.getFarbe();
             
-            if (farbzwangErfuellt == false && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
+            if (farbzwangErfuellt == false && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !spiel1.Stich.isEmpty()) {
                 System.out.println("Farbzwang! Du musst eine Karte der gleichen Farbe spielen.");
                 Handkarten.add(karteZuLegen); // Karte zurück auf die Hand legen
                 return; // Methode verlassen, um eine neue Karte zu wählen
@@ -127,10 +127,10 @@ public class Spieler {
                         System.out.println("Willst du diesen Stich gewinnen? y/n");
                         String input = scanner.nextLine();
                         if (input.equals("y")) {
-                            karteZuLegen.ausfuehren(true,spiel1.getTrumpf(),spiel1.Stich.get(0).getFarbe());
+                            karteZuLegen.ausfuehren(true, spiel1.getTrumpf(), !spiel1.Stich.isEmpty() ? spiel1.Stich.get(0).getFarbe() : null);
                             break;
                         } else if (input.equals("n")) {
-                            karteZuLegen.ausfuehren(false,spiel1.getTrumpf(),spiel1.Stich.get(0).getFarbe());
+                            karteZuLegen.ausfuehren(false,spiel1.getTrumpf(),!spiel1.Stich.isEmpty() ? spiel1.Stich.get(0).getFarbe() : null);
                             break;
                         } else {
                             System.out.println("Falsche Eingabe");
@@ -157,15 +157,6 @@ public class Spieler {
         Wette_geschafft = (Stiche_gewonnen == Wette);
         System.out.println(Name + " hat die Wette " + (Wette_geschafft ? "geschafft!" : "nicht geschafft."));
         return Wette_geschafft;
-    }
-
-    public void Punkte_berrechen() {
-        if (Wette_geschafft) {
-            Punkte += Wette * 2; // Beispiel: Punkte verdoppeln, wenn Wette geschafft
-        } else {
-            Punkte -= Wette; // Beispiel: Punkte abziehen, wenn Wette nicht geschafft
-        }
-        System.out.println("Punkte für " + Name + " wurden gesetzt: " + Punkte);
     }
 
     public int getPunkte() {
