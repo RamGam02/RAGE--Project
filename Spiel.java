@@ -242,6 +242,15 @@ public class Spiel {
                         if (input.equalsIgnoreCase("y")) {
                             Stich_Gewinner = joker;
                             Spieler Gewinner = Stich_Gewinner.getBesitzer();
+                            if (Stich.stream().anyMatch(karte -> karte instanceof Plus5)) {
+                                Gewinner.Punkte += 5;
+                                System.out.println(Gewinner.Name + " erhält 5 zusätzliche Punkte für Plus 5 Karte");
+                            }
+                            if (Stich.stream().anyMatch(karte -> karte instanceof Minus5)) {
+                                Gewinner.Punkte -= 5;
+                                System.out.println(Gewinner.Name + " verliert 5 Punkte für Minus 5 Karte");
+                            }
+                            Gewinner.Stiche_gewonnen++;
                             System.out.println("Stich Gewinner: " + Gewinner.Name);
                             Stich.clear();
                             return Gewinner;

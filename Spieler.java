@@ -70,6 +70,7 @@ public class Spieler {
                 farbzwangErfuellt = true;
                 break;
             }
+            System.out.println("Du hast keine Karte der gleichen Farbe.");
         }
     }
         for (Karten karte : Handkarten) {
@@ -93,7 +94,7 @@ public class Spieler {
                 System.out.println("Ungültige Karte! Versuche es erneut.");
                 gewaehlteKarte = Integer.parseInt(scanner.nextLine());
                 karteZuLegen = Handkarten.get(gewaehlteKarte-1);
-            } else if (karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !spiel1.Stich.isEmpty() ) {
+            } else if (!spiel1.Stich.isEmpty() && karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
                 break;
             } else if (!farbzwangErfuellt) {
                 break;
@@ -110,37 +111,17 @@ public class Spieler {
             spiel1.Stich.add(karteZuLegen);
             String kartenTyp = karteZuLegen.getFarbe();
             
-            if (farbzwangErfuellt == false && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !spiel1.Stich.isEmpty()) {
+            if (!spiel1.Stich.isEmpty() && !farbzwangErfuellt && !karteZuLegen.getFarbe().equals(spiel1.Stich.get(0).getFarbe())) {
                 System.out.println("Farbzwang! Du musst eine Karte der gleichen Farbe spielen.");
                 Handkarten.add(karteZuLegen); // Karte zurück auf die Hand legen
                 return; // Methode verlassen, um eine neue Karte zu wählen
-            } else if (!farbzwangErfuellt) {
-                System.out.println("Du hast keine Karte der gleichen Farbe.");
-            }
+            } 
             if (!(karteZuLegen instanceof Farbkarte)) {  
                 if (kartenTyp.equals("Trumpfwechsel")) {
                     karteZuLegen.ausfuehren(spiel1);
                 } else if (kartenTyp.equals("KeinTrumpf")) {
                     karteZuLegen.ausfuehren(spiel1);
-                } else if (kartenTyp.equals("Joker")) {
-                    while (true) {
-                        System.out.println("Willst du diesen Stich gewinnen? y/n");
-                        String input = scanner.nextLine();
-                        if (input.equals("y")) {
-                            karteZuLegen.ausfuehren(true, spiel1.getTrumpf(), !spiel1.Stich.isEmpty() ? spiel1.Stich.get(0).getFarbe() : null);
-                            break;
-                        } else if (input.equals("n")) {
-                            karteZuLegen.ausfuehren(false,spiel1.getTrumpf(),!spiel1.Stich.isEmpty() ? spiel1.Stich.get(0).getFarbe() : null);
-                            break;
-                        } else {
-                            System.out.println("Falsche Eingabe");
-                        }
-                    }
-                } else if (kartenTyp.equals("Plus 5")) {
-                    karteZuLegen.ausfuehren(this);
-                } else if (kartenTyp.equals("Minus 5")) {
-                    karteZuLegen.ausfuehren(this);
-            }
+                } 
         }
         
         ablagestapel.add(karteZuLegen);
