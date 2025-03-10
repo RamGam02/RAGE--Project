@@ -95,7 +95,7 @@ public class Spiel {
         Random random = new Random();
         Spieler ersterAusspieler = Spieler_Liste.get(random.nextInt(Spieler_Liste.size()));       
         System.out.println("Erster Ausspieler ist " + ersterAusspieler.Name);
-        for (int runde = 10; runde > 0; runde--) {
+        for (int runde = 1; runde > 0; runde--) {
             int kartenProSpieler = runde;
             System.out.println("Runde " + (11 - runde) + " beginnt mit " + kartenProSpieler + " Karten pro Spieler");
             Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
@@ -189,12 +189,17 @@ public class Spiel {
     public void Runde_Auswerten() {
         for (Spieler spieler : Spieler_Liste) {
             if (spieler.ist_Wette_geschafft()) {
-                spieler.Punkte += 10;
+                spieler.Punkte += 10 + spieler.Stiche_gewonnen;
                 System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und erhält 10 Punkte");
             }
             else {
-                spieler.Punkte -=5;
-                System.out.println("Spieler " + spieler.Name + " hat seine Wette geschafft und verliert 5 Punkte");
+                spieler.Punkte -=5 + spieler.Stiche_gewonnen;
+                if (spieler.Punkte > 0){
+                    System.out.println(spieler.Name + " hat seine Wette nicht geschafft, gewinnt dennoch " + spieler.Punkte + " Punkte!");
+                } else{
+                    System.out.println("Spieler " + spieler.Name + " hat seine Wette nicht geschafft und verliert " + (spieler.Punkte * (-1)) + " Punkte");
+                }
+                
             }
         }
     }

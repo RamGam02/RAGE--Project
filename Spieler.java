@@ -150,7 +150,11 @@ public class Spieler {
 
     public boolean ist_Wette_geschafft() {
         Wette_geschafft = (Stiche_gewonnen == Wette);
-        System.out.println(Name + " hat die Wette " + (Wette_geschafft ? "geschafft!" : "nicht geschafft."));
+        if (Wette_geschafft == true){
+            System.out.println(Name + " hat die Wette geschafft!");
+        } else {
+            System.out.println(Name + " hat die Wette nicht geschafft!");
+        } 
         return Wette_geschafft;
     }
 
