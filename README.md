@@ -20,7 +20,7 @@ Input Spieler anzahl (hopefully fixed no test)
 Spwzial karten beim auspeilen (done no test)
 besitzer bei karten hinzufügen (done no test) 
 beim erstellen der Spezial karten haben die alle den gleichen namen (muss das so )
-
+else if (kartenTyp.equals("Joker")) {
 while (true) {
                         System.out.println("Willst du diesen Stich gewinnen? y/n");
                         String input = scanner.nextLine();
@@ -35,6 +35,6 @@ while (true) {
                         }
                     }
 
-                    else if (kartenTyp.equals("Joker")) {
+                    
                     
                 } 
