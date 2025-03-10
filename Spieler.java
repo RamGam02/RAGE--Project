@@ -65,14 +65,14 @@ public class Spieler {
         System.out.println(Name + ", wähle eine Karte zum Ablegen:");
         int i =1;
         if (!spiel1.Stich.isEmpty()) {
-        for (Karten karte : Handkarten) {
-            if (karte.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !farbzwangErfuellt ) {
-                farbzwangErfuellt = true;
-                break;
+            for (Karten karte : Handkarten) {
+                if (karte.getFarbe().equals(spiel1.Stich.get(0).getFarbe())&& !farbzwangErfuellt ) {
+                    farbzwangErfuellt = true;
+                    break;
+                }
+                System.out.println("Du hast keine Karte der gleichen Farbe.");
             }
-            System.out.println("Du hast keine Karte der gleichen Farbe.");
         }
-    }
         for (Karten karte : Handkarten) {
             System.out.println(i + ": " + karte.getFarbe() + " " + karte.getWert());
             i++;

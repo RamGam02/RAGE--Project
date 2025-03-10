@@ -133,6 +133,7 @@ public class Spiel {
                 ClearScreen();
             }
             aktuellerAusspieler = Stich_auswerten();
+            aktuellerAusspieler.Stiche_gewonnen =+1;
         }
         Runde_Auswerten();
     }
@@ -204,79 +205,63 @@ public class Spiel {
         System.out.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
     }
 
+    
     public Spieler Stich_auswerten() {
-        List<Karten> Trumpf_Liste = new ArrayList<>();
-        List<Karten> Angespielte_Liste = new ArrayList<>();
-        List<Karten> Joker_Liste = new ArrayList<>();
-
-        String angespielte_Farbe = null;
-
-        for (Karten karte : Stich) {
-            if (karte instanceof Joker) {
-                Joker_Liste.add(karte);
-            } else if (karte.farbe.equals(Trumpf)) {
-                Trumpf_Liste.add(karte);
-            } else if (angespielte_Farbe == null && karte instanceof Farbkarte) {
-                angespielte_Farbe = karte.getFarbe();
-                Angespielte_Liste.add(karte);
-            } else if (karte.farbe.equals(angespielte_Farbe)) {
-                Angespielte_Liste.add(karte);
-            } 
-        }
-
-        // Wenn keine Farbkarte im Stich ist, setze die angespielte Farbe auf die erste Farbkarte
-        if (angespielte_Farbe == null && !Angespielte_Liste.isEmpty()) {
-            angespielte_Farbe = Angespielte_Liste.get(0).getFarbe();
-        }
-
-        Karten Stich_Gewinner;
-        if (!Joker_Liste.isEmpty()) {
-            if (Joker_Liste.size() == 1) {
-                Stich_Gewinner = Joker_Liste.get(0);
-            } else {
-                for (Karten joker : Joker_Liste) {
-                    Spieler besitzer = joker.getBesitzer();
-                    System.out.println(besitzer.Name + ", möchtest du den Stich gewinnen? (y/n)");
-                    while (true) {
-                        String input = scanner.nextLine();
-                        if (input.equalsIgnoreCase("y")) {
-                            Stich_Gewinner = joker;
-                            Spieler Gewinner = Stich_Gewinner.getBesitzer();
-                            if (Stich.stream().anyMatch(karte -> karte instanceof Plus5)) {
-                                Gewinner.Punkte += 5;
-                                System.out.println(Gewinner.Name + " erhält 5 zusätzliche Punkte für Plus 5 Karte");
-                            }
-                            if (Stich.stream().anyMatch(karte -> karte instanceof Minus5)) {
-                                Gewinner.Punkte -= 5;
-                                System.out.println(Gewinner.Name + " verliert 5 Punkte für Minus 5 Karte");
-                            }
-                            Gewinner.Stiche_gewonnen++;
-                            System.out.println("Stich Gewinner: " + Gewinner.Name);
-                            Stich.clear();
-                            return Gewinner;
-                        } else if (input.equalsIgnoreCase("n")) {
-                            break;
-                        } else {
-                            System.out.println("Ungültige Eingabe! Bitte 'y' oder 'n' eingeben.");
-                        }
+            List<Karten> Trumpf_Liste = new ArrayList<>();
+            List<Karten> Angespielte_Liste = new ArrayList<>();
+            Spieler Gewinner;
+            int i=0;
+            while (i < Stich.size() && !(Stich.get(i) instanceof Farbkarte)) {
+                i++;
+            }
+            
+            if (i == Stich.size()) {
+                Spieler ersterSpieler = Stich.get(0).getBesitzer();
+                Gewinner = ersterSpieler;
+                System.out.println("Keine Farbkarte im Stich. Erster Spieler bekommt den Stich: " + Gewinner.Name);
+                
+            }else{
+                String angespielte_Farbe =null;
+                for (Karten karte : Stich) {
+                    if (karte instanceof Farbkarte) {
+                        angespielte_Farbe = karte.getFarbe();
+                        break;
                     }
                 }
-                // Wenn keiner den Stich gewinnen möchte, gewinnt der erste Joker
-                Stich_Gewinner = Joker_Liste.get(0);
+                for (Karten karte : Stich) {
+                    if (karte.farbe.equals(Trumpf)) {
+                        Trumpf_Liste.add(karte);
+                    } 
+                    else if(karte.farbe.equals(angespielte_Farbe) ) {
+                        Angespielte_Liste.add(karte);
+                    }
+                }
+                if (Trumpf_Liste.size() > 0) {
+                    Trumpf_Liste.sort(Comparator.comparing(Karten::getWert));
+                    Karten Stich_Gewinner = Trumpf_Liste.get(0);
+                    Gewinner = Stich_Gewinner.getBesitzer();
+                    System.out.println("Stich Gewinner (Trumpf): " + Gewinner.Name);
+                } else {                                                                    // hier wird irgendwo nicht nach dem Wert Sortiert, niedrigerer Wert gewinnt --> falsch
+                    Angespielte_Liste.sort(Comparator.comparing(Karten::getWert));
+                    // System.out.println(Angespielte_Liste.get(0).getWert());           Wir haben da was mit Frau Reichgardt probiert
+                    Karten Stich_Gewinner = Angespielte_Liste.get(0);
+                    Gewinner = Stich_Gewinner.getBesitzer();
+                    System.out.println("Stich Gewinner : " + Gewinner.Name);
+                }
             }
-        } else if (!Trumpf_Liste.isEmpty()) {
-            Trumpf_Liste.sort(Comparator.comparing(Karten::getWert).reversed());
-            Stich_Gewinner = Trumpf_Liste.get(0);
-        } else {
-            Angespielte_Liste.sort(Comparator.comparing(Karten::getWert).reversed());
-            Stich_Gewinner = Angespielte_Liste.get(0);
+            Stich.clear();
+            for (Karten karte : Stich) {
+                if (karte instanceof Plus5) {
+                    Gewinner.Punkte += 5;
+                    System.out.println("Plus 5 Karte gespielt. " + Gewinner.Name + " erhält 5 Punkte.");
+                } else if (karte instanceof Minus5) {
+                    Gewinner.Punkte -= 5;
+                    System.out.println("Minus 5 Karte gespielt. " + Gewinner.Name + " verliert 5 Punkte.");
+                }
+            }
+            return Gewinner;
         }
-
-        Spieler Gewinner = Stich_Gewinner.getBesitzer();
-        System.out.println("Stich Gewinner: " + Gewinner.Name);
-        Stich.clear();
-        return Gewinner;
-    }
+    
 
     public void ClearScreen() {
         System.out.println("Drücke Enter, um fortzufahren...");
