@@ -95,7 +95,7 @@ public class Spiel {
         Random random = new Random();
         Spieler ersterAusspieler = Spieler_Liste.get(random.nextInt(Spieler_Liste.size()));       
         System.out.println("Erster Ausspieler ist " + ersterAusspieler.Name);
-        for (int runde = 1; runde > 0; runde--) {
+        for (int runde = 10; runde > 0; runde--) {
             int kartenProSpieler = runde;
             System.out.println("Runde " + (11 - runde) + " beginnt mit " + kartenProSpieler + " Karten pro Spieler");
             Runde(kartenProSpieler, Karten_Liste, ersterAusspieler);
