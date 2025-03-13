@@ -70,7 +70,7 @@ public class Spieler {
                     break;
                 }
             }
-            if (!farbzwang) {
+            if (!farbzwang ) {
                 System.out.println("Du hast keine Karte der gleichen Farbe.");
             }
         }
@@ -108,9 +108,7 @@ public class Spieler {
                 System.out.println("Farbzwang! Du musst eine Karte der gleichen Farbe spielen.");
                 Handkarten.add(karteZuLegen); // Karte zurück auf die Hand legen
                 return; // Methode verlassen, um eine neue Karte zu wählen
-            } else if (!farbzwang) {
-                System.out.println("Du hast keine Karte der gleichen Farbe.");
-            }
+            } 
             if (!(karteZuLegen instanceof Farbkarte)) {
                 if (kartenTyp.equals("Trumpfwechsel")) {
                     karteZuLegen.ausfuehren(spiel1);
