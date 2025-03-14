@@ -16,6 +16,7 @@ public class Spiel {
         Spielstart();
         scanner.close();
     }
+    
     public boolean GibtesdenNamen(String input){
         for (Spieler spieler : Spieler_Liste) {
             if (input.equals(spieler.Name))  { 
@@ -209,7 +210,6 @@ public class Spiel {
         Spieler_Liste.sort(Comparator.comparing(Spieler::getPunkte).reversed());
         System.out.println("Der Gewinner ist " + Spieler_Liste.get(0).Name);
     }
-
     
     public Spieler Stich_auswerten() {
             List<Karten> Trumpf_Liste = new ArrayList<>();
@@ -265,8 +265,7 @@ public class Spiel {
                 }
             }
             return Gewinner;
-        }
-    
+        }   
 
     public void ClearScreen() {
         System.out.println("Drücke Enter, um fortzufahren...");
@@ -286,6 +285,3 @@ public class Spiel {
         new Spiel();
 }
 }
-
-
-
